@@ -6,8 +6,9 @@ const _ = require('lodash');
 const bcrypt = require('bcrypt');
 const config = require('config');
 const autho = require('../middleware/autho');
+const isAdmin = require('../middleware/is-admin');
 
-router.get('/', autho, async (req, res) => {
+router.get('/', [autho, isAdmin], async (req, res) => {
     const users = await User.find().sort('name');
     res.send(users);
 });
@@ -19,7 +20,7 @@ router.post('/', async (req, res) => {
 
     let user = new User(_.pick(req.body, ['username', 'password', 'phone']));
     
-    const salt = await bcrypt.genSalt(config.get(parseInt('userSalt')));
+    const salt = await bcrypt.genSalt(parseInt(config.get('userSalt')));
     user.password = await bcrypt.hash(user.password, salt);
 
     await user.save()

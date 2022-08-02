@@ -27,11 +27,15 @@ const userSchema = new mongoose.Schema({
     isStaff: {
         type: Boolean,
         default: false
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 });
 
 userSchema.methods.generateAuthenToken = function() {
-    return jwt.sign({ _id: this._id, isStaff: this.isStaff }, config.get('jwtPrivateKey'));
+    return jwt.sign({ _id: this._id, isStaff: this.isStaff, isAdmin: this.isAdmin }, config.get('jwtPrivateKey'));
 }
 
 const User = mongoose.model('User', userSchema);

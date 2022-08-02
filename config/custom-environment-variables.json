@@ -1,3 +1,5 @@
 {
-    "db": "canteen_db"
+    "db": "canteen_db",
+    "jwtPrivateKey": "canteen_jwtPrivateKey",
+    "userSalt": "canteen_userSalt"
 }

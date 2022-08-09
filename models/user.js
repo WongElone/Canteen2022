@@ -27,10 +27,6 @@ const userSchema = new mongoose.Schema({
     isStaff: {
         type: Boolean,
         default: false
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false
     }
 });
 
@@ -63,7 +59,8 @@ function validateUser(user) {
 
         phone: Joi.string()
             .pattern(/^[0-9]{8}$/)
-            .required(),
+            .required()
+            .length(8),
 
         isStaff: Joi.boolean()
     });

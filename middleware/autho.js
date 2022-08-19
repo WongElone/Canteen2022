@@ -2,7 +2,8 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 module.exports = async function(req, res, next) {
-    const token = req.header('x-authen-token');
+    const token = req.cookies.x_authen_token;
+    
     if (!token) return res.status(401).send('Access denied. No authentication token provided.');
 
     try {

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="/users" method="POST">
+      <label for="username">Username*</label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        minlength="3"
+        maxlength="55"
+        placeholder="A-z 0-9"
+        required
+      />
+      <div></div>
+      <label for="password">Password*</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        minlength="8"
+        maxlength="32"
+        placeholder="A-z 0-9 (At least 8 characters)"
+        required
+      />
+      <div></div>
+      <label for="confirm_password">Confirm Password*</label>
+      <input
+        type="password"
+        name="confirm_password"
+        id="confirm_password"
+        minlength="8"
+        maxlength="32"
+        placeholder="Type your password again"
+        required
+      />
+      <div></div>
+      <label for="phone">Phone No.*</label>
+      <input
+        type="text"
+        name="phone"
+        id="phone"
+        size="6"
+        minlength="8"
+        maxlength="8"
+        required
+      />
+      <div></div>
+      <button type="submit">Sign Up</button>
+      <% if (locals.query.errMsgs) { for (var i = 1; i <
+      locals.query.errMsgs.length; i++) { %>
+      <div>
+        <p>*<% if (locals.query.errMsgs[i].includes('name') && locals.query.errMsgs[i].includes('phone')) { %>
+            Username or phone no. already taken
+          <% } else if (locals.query.errMsgs[i].includes('name') && locals.query.errMsgs[i].includes('pattern')) { %>
+            Username does not allow special characters
+          <% } else if (locals.query.errMsgs[i].includes('password') && locals.query.errMsgs[i].includes('pattern')) { %>
+            Password does not allow special characters
+          <% } else if (locals.query.errMsgs[i].includes('ref:password'))  { %>
+            Passwords did not match
+          <% } else if (locals.query.errMsgs[i].includes('phone') && locals.query.errMsgs[i].includes('pattern'))  { %>
+            Phone no. must be numberals
+          <% } else if (locals.query.errMsgs[i].includes('phone') && locals.query.errMsgs[i].includes('length'))  { %>
+            Phone no. must be 8-digit
+          <% } else  { %>
+            <%= locals.query.errMsgs[i] %>
+          <% } %> 
+        </p>
+      </div>
+      <% } } %>
+    </form>
+  </body>
+</html>

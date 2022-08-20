@@ -4,7 +4,7 @@ const config = require('config');
 module.exports = async function(req, res, next) {
     const token = req.cookies.x_authen_token;
     
-    if (!token) return res.status(401).send('Access denied. No authentication token provided.');
+    if (!token) return res.status(401).redirect('/authen/login');
 
     try {
         const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
@@ -12,6 +12,6 @@ module.exports = async function(req, res, next) {
         next();
     }
     catch(err) {
-        return res.status(401).send('Access denied. Invalid authentication token.')
+        return res.status(401).redirect('/authen/login');
     }
 }

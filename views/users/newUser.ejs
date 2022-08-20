@@ -15,6 +15,8 @@
         id="username"
         minlength="3"
         maxlength="55"
+        maxlength="32"
+        size="22"
         placeholder="A-z 0-9"
         required
       />
@@ -26,6 +28,7 @@
         id="password"
         minlength="8"
         maxlength="32"
+        size="22"
         placeholder="A-z 0-9 (At least 8 characters)"
         required
       />
@@ -37,6 +40,7 @@
         id="confirm_password"
         minlength="8"
         maxlength="32"
+        size="22"
         placeholder="Type your password again"
         required
       />
@@ -53,6 +57,17 @@
       />
       <div></div>
       <button type="submit">Sign Up</button>
+    </form>
+    <form action="/authen/login" method="GET">
+      <button type="submit">
+        I have an account
+      </button>
+    </form>
+    <form action="/" method="GET">
+      <button type="submit">
+        Home
+      </button>
+    </form>
       <% if (locals.query.errMsgs) { for (var i = 1; i <
       locals.query.errMsgs.length; i++) { %>
       <div>
@@ -74,6 +89,5 @@
         </p>
       </div>
       <% } } %>
-    </form>
   </body>
 </html>

@@ -10,12 +10,12 @@ const paramsId = require('../middleware/paramsId');
 
 //////////////// staff routes /////////////////
 
-router.get('/new', asyncMiddleware(async (req, res) => {
+router.get('/new', [autho], asyncMiddleware(async (req, res) => {
     res.render('dishes/newDish');
 }));
 
 
-router.post('/', asyncMiddleware(async (req, res) => {
+router.post('/', [autho], asyncMiddleware(async (req, res) => {
     const { error } = validateDish(req.body);
     if (error) return res.status(400).send(validateMsg(error));
 
@@ -25,12 +25,10 @@ router.post('/', asyncMiddleware(async (req, res) => {
     res.redirect('dishes/all');
 }));
 
-router.get('/all', asyncMiddleware(async (req, res) => {
+router.get('/all', [autho], asyncMiddleware(async (req, res) => {
     const dishes = await Dish.find().sort('name');
     
-    const locals = { dishes: dishes, count: dishes.length }
-    res.render('dishes/showDishes', locals);
-    // res.send(dishes);
+    res.render('dishes/showDishes', { dishes: _.map(dishes, (dish) => _.pick(dish, ['name', 'price'])) });
 }));
 
 router.get('/:id/staff', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
@@ -65,7 +63,7 @@ router.delete('/:id/staff', [autho, isStaff, paramsId], asyncMiddleware(async (r
 
 ////////////// customer routes ////////////////
 
-router.get('/', asyncMiddleware(async (req, res) => {
+router.get('/current', asyncMiddleware(async (req, res) => {
     let dishes = await Dish.find().sort('name');
 
     res.send(

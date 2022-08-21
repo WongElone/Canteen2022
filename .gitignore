@@ -1,3 +1,5 @@
 node_modules/
 try.js
 middleware/is-admin.js
+try.html
+try.ejs

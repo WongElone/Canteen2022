@@ -10,21 +10,143 @@
     <table>
       <thead>
         <tr>
-          <th>Dishes</th>
-          <th>Prices</th>
+          <th>Dish</th>
+          <th>Price (HKD)</th>
+          <th>
+            <button onclick="resetDeletes()">Reset X</button>
+          </th>
         </tr>
       </thead>
-      <tbody>
-        <% for (var i = 0; i < locals.dishes.length; i++) { %>
-        <tr>
-          <td><%= locals.dishes[i].name %></td>
-          <td>$<%= locals.dishes[i].price %></td>
-        </tr>
-        <% } %>
-      </tbody>
+      <tbody id="dishes"></tbody>
     </table>
-    <form action="/users/welcome" method="GET">
-      <button type="submit">Home</button>
+
+    <form action="/dishes" method="POST">
+      <div></div>
+      <label for="name">Dish Name</label>
+      <input
+        type="text"
+        name="name"
+        id="name"
+        minlength="3"
+        maxlength="55"
+        required
+      />
+      <div></div>
+      <label for="price">Price (HKD)</label>
+      <input
+        type="number"
+        name="price"
+        id="price"
+        placeholder="0 - 1023"
+        required
+      />
+      <div></div>
+      <button type="submit">Submit Dish</button>
     </form>
+
+
+    <form action="/dishes/deletes" method="POST">
+        <input type="hidden" name="deletes" id="deletes">
+        <button type="submit" onclick="saveDeletes()">Submit Deletes</button>
+    </form>
+
+    <form action="/controls" method="GET">
+      <button type="submit">Control Panel</button>
+    </form>
+
+    <script>
+      function toReadable(msg) {
+        if (msg.includes("price")) return "Price was out of range";
+
+        return msg;
+      }
+
+      function getDeletes() {
+        // find rows deleted
+        const rows = document.querySelectorAll(".to_delete");
+
+        // return names of those rows
+        return Array.from(rows).reduce((acc, curr) => {
+          return [...acc, curr.querySelector(".dish_name").innerText];
+        }, []);
+      }
+
+      function resetDeletes() {
+        // find rows deleted
+        const rows = document.querySelectorAll(".to_delete");
+
+        rows.forEach((row) => {
+          row.classList.remove('to_delete');
+          row.querySelector('.button_del').disabled = false;
+        });
+      }
+
+        // to be call onclick of the save-deletes button
+      function saveDeletes() {
+        const names = getDeletes();
+        
+        // post deletes to server
+        const input = document.querySelector('#deletes');
+        input.setAttribute('value', names.join(';,.'));
+      }
+
+      const dishes = fetch("/dishes/all/data")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            document.write(`Error ${res.status}`);
+            throw new Error("Error 404");
+          }
+        })
+        .then((d) => {
+          return d;
+        })
+        .catch((err) => console.error(err));
+
+      dishes.then((dishes) => {
+        if (!dishes) return;
+        const tbody = document.querySelector("#dishes");
+
+        dishes.forEach((dish) => {
+          const tr = document.createElement("tr");
+          tbody.appendChild(tr);
+
+          const name = document.createElement("td");
+          tr.appendChild(name);
+          name.innerText = dish.name;
+          name.classList.add("dish_name");
+
+          const price = document.createElement("td");
+          tr.appendChild(price);
+          price.innerText = "$" + dish.price;
+
+          const buttonDel = document.createElement("button");
+          tr.appendChild(buttonDel);
+          buttonDel.innerText = "X";
+          buttonDel.classList.add("button_del");
+          buttonDel.onclick = function () {
+            this.disabled = true;
+            const rows = this.parentElement;
+            rows.classList.add("to_delete");
+          };
+        });
+      });
+
+      const params = new URLSearchParams(window.location.search);
+
+      if (params.get("errMsgs")) {
+        const errMsgs = params.get("errMsgs").split(";;");
+
+        errMsgs.forEach((msg) => {
+          const div = document.createElement("div");
+          document.body.appendChild(div);
+
+          const p = document.createElement("p");
+          p.innerText = "*" + toReadable(msg);
+          div.appendChild(p);
+        });
+      }
+    </script>
   </body>
 </html>

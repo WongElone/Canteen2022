@@ -12,19 +12,19 @@ router.post('/', asyncMiddleware(async (req, res) => {
 
     // if (error) return res.status(400).send(validateMsg(error));
     if (error) return res.status(400).redirect(url.format({
-        pathname: 'authen/login',
+        pathname: '/authen/login',
         query: { errMsgs: [, ...validateMsg(error)] }
     }));
 
     const user = await User.findOne({ username: req.body.username });
     if (!user) return res.status(404).redirect(url.format({
-        pathname: 'authen/login',
+        pathname: '/authen/login',
         query: { errMsgs: [, 'Incorrect username or password'] }
     }));
 
     const validPw = await bcrypt.compare(req.body.password, user.password);
     if (!validPw) return res.status(404).redirect(url.format({
-        pathname: 'authen/login',
+        pathname: '/authen/login',
         query: { errMsgs: [, 'Invalid username or password'] }
     }));
 
@@ -39,7 +39,7 @@ router.get('/login', asyncMiddleware((req, res) => {
 }));
 
 router.get('/logout', asyncMiddleware((req, res) => {
-    res.clearCookie("x_authen_token").redirect('/authen/login');
+    res.clearCookie("x_authen_token").redirect('/');
 }));
 
 function validate(login) {

@@ -8,11 +8,8 @@
 </head>
 <body>
     <h2>Welcome back, <%= locals.user.username %></h2>
-    <form action="/users/all" method="GET" >
-        <button type="submit" >List All Users</button>
-    </form>
-    <form action="/dishes/all" method="GET" >
-        <button type="submit" >List All Dishes</button>
+    <form action="/controls" method="GET">
+        <button type="submit">Control Panel (staff only)</button>
     </form>
     <form action="/authen/logout" method="GET">
         <button type="submit">Logout</button>

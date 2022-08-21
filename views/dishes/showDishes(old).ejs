@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <table>
+      <thead>
+        <tr>
+          <th>Dishes</th>
+          <th>Prices</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for (var i = 0; i < locals.dishes.length; i++) { %>
+        <tr>
+          <td><%= locals.dishes[i].name %></td>
+          <td>$<%= locals.dishes[i].price %></td>
+          <td>
+            <button id="button_del" onclick="delDish()">
+              X
+              
+            </button>
+          </td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+
+    <form action="/dishes" method="POST">
+      <div></div>
+      <label for="name">Dish Name</label>
+      <input type="text" name="name" id="name" minlength="3" maxlength="55" required />
+      <div></div>
+      <label for="price">Price (HKD)</label>
+      <input
+        type="number"
+        name="price"
+        id="price"
+        placeholder="0 - 1023"
+        required
+      />
+      <div></div>
+      <button type="submit">Add Dish</button>
+    </form>
+
+    <form action="/controls" method="GET">
+      <button type="submit">Control Panel</button>
+    </form>
+
+    <% if (locals.query.errMsgs) {
+      for (var i = 1; i < locals.query.errMsgs.length; i++) {%>
+        <div>
+          <% if (locals.query.errMsgs[i].includes('price')) { %>
+            *Price was out of range
+          <% } else { %>
+            <%= locals.query.errMsgs[i] %>
+          <% } %>
+        </div>
+    <% } } %>
+  
+  
+    <% var message = 'hello world'; %>
+    <script>
+      const m = '<%= message %>';
+      const p = document.createElement('p');
+      p.innerText = m;
+      document.body.appendChild(p);
+    </script>
+  </body>
+</html>

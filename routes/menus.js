@@ -35,7 +35,7 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
     await menu.save();
 
     // res.sendFile(path.join(__dirname, '../public/menus/showMenus.html'));
-    res.send(menu);
+    res.sendFile(path.join(__dirname, '../public/menus/newSuccess.html'));
 }));
 
 router.get('/new', [autho, isStaff], asyncMiddleware(async (req, res) => {

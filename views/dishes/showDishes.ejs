@@ -96,7 +96,7 @@
             return res.json();
           } else {
             document.write(`Error ${res.status}`);
-            throw new Error("Error 404");
+            throw new Error(`Error ${res.status}`);
           }
         })
         .then((d) => {
@@ -127,8 +127,8 @@
           buttonDel.classList.add("button_del");
           buttonDel.onclick = function () {
             this.disabled = true;
-            const rows = this.parentElement;
-            rows.classList.add("to_delete");
+            const row = this.parentElement;
+            row.classList.add("to_delete");
           };
         });
       });

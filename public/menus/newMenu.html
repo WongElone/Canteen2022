@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Staff Controls - Create Menu</title>
+  </head>
+  <body>
+    <form action="/menus" method="POST">
+      <input type="hidden" name="dishesNames" id="dishes_add" />
+    </form>
+
+    <h2>Available Dishes</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Dish</th>
+          <th>Price (HKD)</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody id="available_dishes"></tbody>
+    </table>
+
+    <button onclick="addToMenu()">Add To Menu</button>
+
+    <h2>New Menu Preview</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Dish</th>
+          <th>Price (HKD)</th>
+          <th>Select</th>
+        </tr>
+      </thead>
+      <tbody id="menu_dishes"></tbody>
+    </table>
+
+    <button onclick="removeFromMenu()">Remove From Menu</button>
+
+    <form action="/menus" method="POST">
+      <div></div>
+      <label for="menu_name">Menu Name</label>
+      <input
+        type="text"
+        name="menuName"
+        id="menu_name"
+        minlength="3"
+        maxlenght="55"
+        required
+      />
+      <div></div>
+      <label for="effective_date">Effective Date</label>
+      <input
+        type="text"
+        name="date"
+        id="effective_date"
+        minlength="10"
+        maxlength="10"
+        placeholder="DD/MM/YYYY"
+        size="8"
+        required
+      />
+      <input type="hidden" id="input_dishes" name="input_dishes_stringify" required />
+      <button type="submit" id="confirm_button" onclick="data_stringify()" disabled>Confirm</button>
+    </form>
+
+    <script>
+      // fetch dishes from server
+      const dishes = fetch("/dishes/all/data")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            document.write(`Error ${res.status}`);
+            throw new Error(`Error ${res.status}`);
+          }
+        })
+        .then((d) => d)
+        .catch((err) => console.error(err));
+
+      // print available dishes
+      dishes.then((dishes) => {
+        if (!dishes) return;
+        const tbody = document.querySelector("#available_dishes");
+
+        dishes.forEach((dish) => {
+          const tr = document.createElement("tr");
+          tbody.appendChild(tr);
+          tr.classList.add("dish");
+
+          const name = document.createElement("td");
+          tr.appendChild(name);
+          name.innerText = dish.name;
+          name.classList.add("dish_name");
+
+          const price = document.createElement("td");
+          tr.appendChild(price);
+          price.innerText = "$" + dish.price;
+
+          const select = document.createElement("td");
+          tr.appendChild(select);
+          const checkbox = document.createElement("input");
+          select.appendChild(checkbox);
+          checkbox.type = "checkbox";
+          checkbox.classList.add("checkbox");
+          tr.classList.add("unchecked");
+          checkbox.onclick = function () {
+            Array.from(tr.classList).includes("unchecked")
+              ? tr.classList.replace("unchecked", "checked")
+              : tr.classList.replace("checked", "unchecked");
+          };
+        });
+      });
+
+      function addToMenu() {
+        // find selected rows
+        const rows = document
+          .querySelector("#available_dishes")
+          .querySelectorAll(".checked");
+
+        // append selected rows to menu
+        const menuDishes = document.querySelector("#menu_dishes");
+        rows.forEach((row) => {
+          menuDishes.appendChild(row);
+          row.querySelector(".checkbox").checked = false;
+          row.classList.replace("checked", "unchecked");
+        });
+
+        confirmButtonUpdate();
+      }
+
+      function removeFromMenu() {
+        // find selected rows
+        const rows = document
+          .querySelector("#menu_dishes")
+          .querySelectorAll(".checked");
+
+        // append selected rows to menu
+        const availDishes = document.querySelector("#available_dishes");
+        rows.forEach((row) => {
+          availDishes.appendChild(row);
+          row.querySelector(".checkbox").checked = false;
+          row.classList.replace("checked", "unchecked");
+        });
+
+        confirmButtonUpdate();
+      }
+
+      function confirmButtonUpdate() {
+        const confirmButton = document.querySelector('#confirm_button');
+
+        const row = document.querySelector('#menu_dishes').querySelector('.dish');
+
+        confirmButton.disabled = (!row);
+      }
+
+      function data_stringify() {
+        const dishesNames = Array.from(
+            document.querySelector('#menu_dishes').querySelectorAll('.dish_name')
+        ).reduce((acc, curr) => {
+          return [...acc, curr.innerText];
+        }, []);
+
+        document
+          .querySelector("#input_dishes")
+          .setAttribute("value", JSON.stringify(dishesNames));
+      }
+    </script>
+  </body>
+</html>

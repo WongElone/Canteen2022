@@ -10,29 +10,7 @@ const menuSchema = new mongoose.Schema({
     },
 
     dishes: {
-        type: [new mongoose.Schema({
-            name: {
-                type: String,
-                required: true,
-                minLength: 3,
-                maxLength: 55
-                // unique: true
-            },
-        
-            price: {
-                type: Number,
-                required: true,
-                min: 0,
-                max: 1023
-            },
-        
-            stock: {
-                type: Number,
-                default: 0,
-                min: 0,
-                max: 255
-            }
-        })],
+        type: [mongoose.ObjectId],
         required: true
     },
 
@@ -48,13 +26,13 @@ const Menu = mongoose.model('Menu', menuSchema);
 
 function validateMenu(menu) {
     const schema = Joi.object({
-        name: Joi.string()
+        menuName: Joi.string()
                 .min(3)
                 .max(55)
                 .required(),
 
-        dishesId: Joi.array()
-                    .items(Joi.objectId())
+        dishesNames: Joi.array()
+                    .items(Joi.string().min(3).max(55))
                     .required(),
 
         date: Joi.string().required()
@@ -72,7 +50,7 @@ function validateMenuPut(changes) {
                 .max(55),
 
         dishesId: Joi.array()
-                    .items(Joi.objectId()),
+                .items(Joi.string().min(3).max(55)),
 
         date: Joi.string()
 

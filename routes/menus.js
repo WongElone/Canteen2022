@@ -19,6 +19,7 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
     }
 
     const { error } = validateMenu(req.body);
+
     if (error) return res.status(400).send(validateMsg(error));
     
     const dishes = await Dish.find({ name: { $in: req.body.dishesNames } });
@@ -102,22 +103,34 @@ router.get('/all', [autho, isStaff], asyncMiddleware(async (req, res) => {
 
 ////////////// customer routes ////////////////
 
-// router.get('/today', [autho], asyncMiddleware(async (req, res) => {
-//     console.log('asdfasdf');
-//     const menus = await Menu.find();
+router.get('/today', [autho], asyncMiddleware(async (req, res) => {
+    const menus = await Menu.find();
 
-//     const hkDate = new Date()
-//                     .toLocaleString('en-UK', { timeZone: 'Asia/Singapore' })
-//                     .slice(0,10);
+    const hkDate = new Date()
+                    .toLocaleString('en-UK', { timeZone: 'Asia/Singapore' })
+                    .slice(0,10);
 
-//     const todayMenus = []
-//     for (let menu of menus) {
-//         if (menu.date === hkDate) {
-//             todayMenus.push(menu);
-//         }
-//     }
+    const todayMenus = [];
+    for (let menu of menus) {
+        if (menu.date === hkDate) {
+            todayMenus.push(menu);
+        }
+    }
 
-//     res.send(todayMenus);
-// }));
+    //////////////// !!! refactor later !!! ////////////////
+
+    const ms = _.map(todayMenus, (menu) => _.pick(menu, ['name', 'date']));
+
+    for (let i in todayMenus) {
+        const dishes = await Dish.find({ _id: { $in: todayMenus[i].dishes } });
+        ms[i].dishes = _.map(dishes, (dish) => _.pick(dish, ['name', 'price']));
+    }
+
+    res.send(ms);
+}));
+
+router.get('/showToday', [autho], asyncMiddleware(async (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/menus/showTodayMenus.html'));
+}));
 
 module.exports = router;

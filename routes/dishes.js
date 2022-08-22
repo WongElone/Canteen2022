@@ -12,11 +12,6 @@ const querystring = require('../functions/querystring');
 
 //////////////// staff routes /////////////////
 
-router.get('/new', [autho, isStaff], asyncMiddleware(async (req, res) => {
-    res.render('dishes/newDish');
-}));
-
-
 router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
     const { error } = validateDish(req.body);
     // if (error) return res.status(400).send(validateMsg(error));

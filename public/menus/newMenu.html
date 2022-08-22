@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Staff Controls - Create Menu</title>
+    <title>Create Menu</title>
   </head>
   <body>
     <form action="/menus" method="POST">
@@ -43,7 +43,7 @@
 
     <form action="/menus" method="POST">
       <div></div>
-      <label for="menu_name">Menu Name</label>
+      <label for="menu_name">Menu Name: </label>
       <input
         type="text"
         name="menuName"
@@ -53,19 +53,44 @@
         required
       />
       <div></div>
-      <label for="effective_date">Effective Date</label>
+      <label>Effective Date: </label>
       <input
         type="text"
-        name="date"
-        id="effective_date"
-        minlength="10"
-        maxlength="10"
-        placeholder="DD/MM/YYYY"
-        size="8"
+        id="effective_DD"
+        minlength="2"
+        maxlength="2"
+        placeholder="DD"
+        size="1"
         required
       />
+      <span>/</span>
+      <input
+        type="text"
+        id="effective_MM"
+        minlength="2"
+        maxlength="2"
+        placeholder="MM"
+        size="1"
+        required
+      />
+      <span>/</span>
+      <input
+        type="text"
+        id="effective_YYYY"
+        minlength="4"
+        maxlength="4"
+        placeholder="YYYY"
+        size="2"
+        required
+      />
+      <div></div>
+      <input type="hidden" id="input_date" name="date" required />
       <input type="hidden" id="input_dishes" name="input_dishes_stringify" required />
       <button type="submit" id="confirm_button" onclick="data_stringify()" disabled>Confirm</button>
+    </form>
+
+    <form action="/controls">
+      <button type="submit">Back to Control Panel</button>
     </form>
 
     <script>
@@ -168,6 +193,13 @@
         document
           .querySelector("#input_dishes")
           .setAttribute("value", JSON.stringify(dishesNames));
+
+        const DD = document.querySelector('#effective_DD').value;
+        const MM = document.querySelector('#effective_MM').value;
+        const YYYY = document.querySelector('#effective_YYYY').value;
+        document
+          .querySelector('#input_date')
+          .setAttribute('value', [DD, MM, YYYY].join('/'));
       }
     </script>
   </body>

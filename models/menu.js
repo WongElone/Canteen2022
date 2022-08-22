@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Joi = require('joi');
+const myValidation = require('../functions/myValidation');
 
 const menuSchema = new mongoose.Schema({
     name: {
@@ -32,15 +33,20 @@ function validateMenu(menu) {
                 .required(),
 
         dishesNames: Joi.array()
-                    .items(Joi.string().min(3).max(55))
-                    .required(),
+                .items(Joi.string().min(3).max(55))
+                .required(),
 
-        date: Joi.string().required()
+        date: Joi.string()
+                .length(10)
+                .pattern(/[0-9]{2}[/][0-9]{2}[/][0-9]{4}/)
+                .required()
 
         // later add session and repeat frequency
     });
 
-    return schema.validate(menu);
+    const joiValid = schema.validate(menu);
+    
+    return ((joiValid.error) ? schema.validate(menu) : myValidation.validateDate(menu.date));
 }
 
 function validateMenuPut(changes) {
@@ -53,11 +59,14 @@ function validateMenuPut(changes) {
                 .items(Joi.string().min(3).max(55)),
 
         date: Joi.string()
+                .pattern(/[0-9]{2}[/][0-9]{2}[/][0-9]{4}/)
 
         // later add session and repeat frequency
     });
 
-    return schema.validate(changes);
+    const joiValid = schema.validate(menu);
+    
+    return ((joiValid.error) ? joiValid : myValidation.validateDate(menu.date));
 }
 
 module.exports.menuSchema = menuSchema;

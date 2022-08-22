@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Canteen Menu</title>
 </head>
 <body>
     <h2>Welcome back, <%= locals.user.username %></h2>
     <form action="/controls" method="GET">
         <button type="submit">Control Panel (staff only)</button>
+    </form>
+    <form action="/menus/showToday" method="GET">
+        <button type="submit">Today Menus</button>
     </form>
     <form action="/authen/logout" method="GET">
         <button type="submit">Logout</button>

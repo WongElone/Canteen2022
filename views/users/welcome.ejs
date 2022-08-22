@@ -5,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canteen Menu</title>
+    <link rel="stylesheet" href="../styles/common.css">
 </head>
 <body>
-    <h2>Welcome back, <%= locals.user.username %></h2>
+    <h1>Welcome back, <%= locals.user.username %></h1>
     <form action="/controls" method="GET">
-        <button type="submit">Control Panel (staff only)</button>
+        <button type="submit" class="outmost_button">Control Panel (staff only)</button>
     </form>
     <form action="/menus/showToday" method="GET">
-        <button type="submit">Today Menus</button>
+        <button type="submit" class="outmost_button">Today Menus</button>
     </form>
     <form action="/authen/logout" method="GET">
-        <button type="submit">Logout</button>
+        <button type="submit" class="outmost_button">Logout</button>
     </form>
 </body>
 </html>

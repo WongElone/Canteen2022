@@ -10,17 +10,21 @@
     border: 5px solid black;
 }
 
-.MenuContainer table, td, th {
+.MenuContainer.unticked {
+    margin: 50px;
+    padding: 10px;
+    border: 5px solid black;
+}
+
+.MenuContainer table, .MenuContainer td, .MenuContainer th {
     border: 1px solid black;
     border-collapse: collapse;
     padding: 5px;
     margin: 5px;
 }
 
-h1 {
-    margin: 25px;
-}
-
-#back_button {
-    margin-left: 25px;
+.MenuContainer.ticked {
+    margin: 50px;
+    padding: 10px;
+    border: 5px solid red;
 }

@@ -5,22 +5,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Control Panel</title>
+    <link rel="stylesheet" href="../styles/menus.css">
+    <link rel="stylesheet" href="../styles/common.css">
 </head>
 <body>
+    <h1>Control Panel</h1>
     <form action="/menus/showAll">
-        <button type="submit">View All Menus</button>
+        <button type="submit" class="outmost_button" >View All Menus</button>
     </form>
     <form action="/menus/new" method="GET">
-        <button type="submit">Create Menu</button>
+        <button type="submit" class="outmost_button" >Create Menu</button>
+    </form>
+    <form action="/menus/deleteMenus" method="GET">
+        <button type="submit" class="outmost_button" >Delete Menus</button>
     </form>
     <form action="/dishes/all" method="GET">
-        <button type="submit">Add/Drop Dishes</button>
+        <button type="submit" class="outmost_button" >Add/Drop Dishes</button>
     </form>
     <form action="/users/all" method="GET" >
-        <button type="submit" >Customers Info</button>
+        <button type="submit" class="outmost_button" >Customers Info</button>
     </form>
     <form action="/users/welcome" method="GET">
-        <button type="submit">Home</button>
+        <button type="submit" class="outmost_button" >Home</button>
     </form>
 </body>
 </html>

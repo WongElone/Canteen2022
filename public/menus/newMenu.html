@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Create Menu</title>
+    <link rel="stylesheet" href="../styles/common.css">
   </head>
   <body>
     <form action="/menus" method="POST">
@@ -86,11 +87,11 @@
       <div></div>
       <input type="hidden" id="input_date" name="date" required />
       <input type="hidden" id="input_dishes" name="input_dishes_stringify" required />
-      <button type="submit" id="confirm_button" onclick="data_stringify()" disabled>Confirm</button>
+      <button type="submit" id="confirm_button" class="outmost_button" onclick="data_stringify()" disabled>Confirm</button>
     </form>
 
     <form action="/controls">
-      <button type="submit">Back to Control Panel</button>
+      <button type="submit" class="outmost_button">Back to Control Panel</button>
     </form>
 
     <script>
@@ -134,7 +135,7 @@
           checkbox.classList.add("checkbox");
           tr.classList.add("unchecked");
           checkbox.onclick = function () {
-            Array.from(tr.classList).includes("unchecked")
+            (Array.from(tr.classList).includes("unchecked"))
               ? tr.classList.replace("unchecked", "checked")
               : tr.classList.replace("checked", "unchecked");
           };

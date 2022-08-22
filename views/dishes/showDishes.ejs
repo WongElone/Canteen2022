@@ -5,6 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add/Drop Dishes</title>
+    <link rel="stylesheet" href="../styles/common.css">
+    <link rel="stylesheet" href="../styles/menus.css">
   </head>
   <body>
     <h1>Add/Drop Dishes</h1>
@@ -50,11 +52,11 @@
 
     <form action="/dishes/deletes" method="POST">
         <input type="hidden" name="deletes" id="deletes">
-        <button type="submit" onclick="saveDeletes()">Submit Deletes</button>
+        <button type="submit" class="outmost_button" onclick="saveDeletes()">Submit Deletes</button>
     </form>
 
     <form action="/controls" method="GET">
-      <button type="submit">Back to Control Panel</button>
+      <button type="submit" class="outmost_button">Back to Control Panel</button>
     </form>
 
     <script>

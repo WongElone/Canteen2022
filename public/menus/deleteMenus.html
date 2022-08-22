@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Menus</title>
+    <link rel="stylesheet" href="../styles/menus.css">
+    <link rel="stylesheet" href="../styles/common.css">
+</head>
+<body>
+    <h1>Delete Menus</h1>
+    
+    <div id="space1"></div>
+
+    <form action="/menus/deletes" method="POST">
+      <input type="hidden" id="input_menus_names" name="delMenusNames" required>
+      <button class="outmost_button" id="submit_button" type="submit" onclick="dataStringfy()" disabled>Submit Deletes</button>
+    </form>
+
+    <form action="/controls" method="GET">
+        <button class="outmost_button" type="Submit">Back to Control Panel</button>
+    </form>
+
+    <script>
+      // fetch menus from server
+      const menus = fetch("/menus/all")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            document.write(`Error ${res.status}`);
+            throw new Error(`Error ${res.status}`);
+          }
+        })
+        .then((d) => d)
+        .catch((err) => console.error(err));
+
+      menus.then((menus) => {
+        if (!menus) return;
+
+        for (let menu of menus) {
+          const menuContainer = document.createElement("div");
+          document.querySelector('#space1').appendChild(menuContainer);
+          menuContainer.classList.add('MenuContainer');
+          menuContainer.classList.add('unticked');
+          
+          // delete button
+          const div = document.createElement('div');
+          menuContainer.appendChild(div);
+          const deleteButton = document.createElement("input");
+          div.appendChild(deleteButton);
+          deleteButton.type = 'checkbox';
+          deleteButton.onclick = function() {
+            (this.checked)
+            // (Array.from(menuContainer.classList).includes('unticked'))
+              ? menuContainer.classList.replace('unticked', 'ticked')
+              : menuContainer.classList.replace('ticked', 'unticked');
+            
+            submitButtonUpdate();
+          }
+
+          // menu name
+          const menuName = document.createElement("span");
+          menuName.classList.add('MenuName');
+          menuName.innerText = menu.name;
+          const menuDate = document.createElement("span");
+          menuDate.classList.add('MenuDate');
+          menuDate.innerText = '  (effective date: ' + menu.date + ')';
+          menuContainer.append(menuName, menuDate);
+
+          // create dishes table skeleton
+          const table = document.createElement("table");
+          menuContainer.appendChild(table);
+
+          const thead = document.createElement("thead");
+          const tbody = document.createElement("tbody");
+          table.append(thead, tbody);
+
+          const headRow = document.createElement("tr");
+          thead.appendChild(headRow);
+
+          const headRowName = document.createElement("th");
+          headRow.appendChild(headRowName);
+          headRowName.innerText = "Dish Name";
+
+          const headRowPrice = document.createElement("th");
+          headRow.appendChild(headRowPrice);
+          headRowPrice.innerText = "Price (HKD)";
+
+          // Add dishes
+          menu.dishes.forEach((dish) => {
+            const tr = document.createElement("tr");
+            tbody.appendChild(tr);
+            tr.classList.add("dish");
+
+            const name = document.createElement("td");
+            tr.appendChild(name);
+            name.innerText = dish.name;
+            name.classList.add("dish_name");
+
+            const price = document.createElement("td");
+            tr.appendChild(price);
+            price.innerText = "$" + dish.price;
+          });
+        }
+      });
+
+      function dataStringfy() {
+        const tickedContainers = Array.from(document.querySelectorAll('.ticked'));
+
+        const delMenusNames = tickedContainers.reduce((acc, curr) => {
+          return [...acc, curr.querySelector('.MenuName').innerText]
+        }, []);
+
+        document.querySelector('#input_menus_names').value = JSON.stringify(delMenusNames);
+      }
+
+      function submitButtonUpdate() {
+        const submitButton = document.querySelector('#submit_button');
+
+        const tickedContainer = document.querySelector('.ticked');
+
+        submitButton.disabled = (!tickedContainer);
+      }
+    </script>
+</body>
+</html>

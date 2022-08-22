@@ -5,13 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>All Menus</title>
+    <link rel="stylesheet" href="../styles/common.css">
     <link rel="stylesheet" href="../styles/menus.css">
   </head>
   <body>
     <h1>All Menus</h1>
     <div id="space1"></div>
     <form action="/controls" method="GET">
-        <button id="back_button" type="Submit">Back to Control Panel</button>
+      <button class="outmost_button" type="Submit">Back to Control Panel</button>
     </form>
     <script>
       // fetch menus from server
@@ -32,15 +33,15 @@
 
         for (let menu of menus) {
           const menuContainer = document.createElement("div");
-          document.querySelector('#space1').appendChild(menuContainer);
-          menuContainer.classList.add('MenuContainer');
+          document.querySelector("#space1").appendChild(menuContainer);
+          menuContainer.classList.add("MenuContainer");
 
           const menuName = document.createElement("span");
-          menuName.classList.add('MenuName');
+          menuName.classList.add("MenuName");
           menuName.innerText = menu.name;
           const menuDate = document.createElement("span");
-          menuDate.classList.add('MenuDate');
-          menuDate.innerText = '  (effective date: ' + menu.date + ')';
+          menuDate.classList.add("MenuDate");
+          menuDate.innerText = "  (effective date: " + menu.date + ")";
           menuContainer.append(menuName, menuDate);
 
           // create dishes table skeleton

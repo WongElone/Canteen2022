@@ -59,6 +59,10 @@ router.get('/all', [autho, isStaff], asyncMiddleware(async (req, res) => {
     res.send(ms);
 }));
 
+router.get('/deleteMenus', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/menus/deleteMenus.html'));
+}));
+
 // router.get('/menu/:id', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
 //     const menu = await Menu.findById(req.params.id);
 //     if (!menu) return res.status(404).send('The dish with the given ID was not found.');
@@ -100,6 +104,17 @@ router.get('/all', [autho, isStaff], asyncMiddleware(async (req, res) => {
 
 //     res.send(menu);
 // }));
+
+router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    // const menu = await Menu.findByIdAndRemove(req.params.id);
+    // if (!menu) return res.status(404).send('The dish with the given ID was not found.');
+
+    const delMenusNames = JSON.parse(req.body.delMenusNames);
+
+    await Menu.deleteMany({ name: { $in: delMenusNames } });
+
+    res.sendFile(path.join(__dirname, '../public/menus/deleteSuccess.html'));
+}));
 
 ////////////// customer routes ////////////////
 

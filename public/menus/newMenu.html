@@ -25,7 +25,7 @@
       <tbody id="available_dishes"></tbody>
     </table>
 
-    <button onclick="addToMenu()">Add To Menu</button>
+    <button onclick="addToMenu()" id="add_to_menu">Add To Menu</button>
 
     <h2>New Menu Preview</h2>
 
@@ -40,7 +40,7 @@
       <tbody id="menu_dishes"></tbody>
     </table>
 
-    <button onclick="removeFromMenu()">Remove From Menu</button>
+    <button onclick="removeFromMenu()" id="remove_from_menu" disabled>Remove From Menu</button>
 
     <form action="/menus" method="POST">
       <div></div>
@@ -142,6 +142,25 @@
         });
       });
 
+      // print errors
+      const params = new URLSearchParams(window.location.search);
+
+      const errMsgs = JSON.parse(params.get('errMsgs'));
+
+      if (errMsgs) {
+        errMsgs.forEach((msg) => {
+          const msgBox = document.createElement("span");
+          msgBox.classList.add("ErrMsg");
+          document.querySelector("#confirm_button").after(msgBox);
+
+          if (msg.includes("date")) {
+            msgBox.innerText = " * Invalid Date";
+          } else {
+            msgBox.innerText = " * " + msg;
+          }
+        });
+      }
+
       function addToMenu() {
         // find selected rows
         const rows = document
@@ -178,10 +197,18 @@
 
       function confirmButtonUpdate() {
         const confirmButton = document.querySelector('#confirm_button');
+        const removeButton = document.querySelector('#remove_from_menu');
 
-        const row = document.querySelector('#menu_dishes').querySelector('.dish');
+        const menu_row = document.querySelector('#menu_dishes').querySelector('.dish');
 
-        confirmButton.disabled = (!row);
+        confirmButton.disabled = (!menu_row);
+        removeButton.disabled = (!menu_row);
+
+        const addButton = document.querySelector('#add_to_menu');
+
+        const avail_row = document.querySelector('#available_dishes').querySelector('.dish');
+
+        addButton.disabled = (!avail_row);
       }
 
       function data_stringify() {

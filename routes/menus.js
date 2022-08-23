@@ -9,6 +9,7 @@ const isStaff = require('../middleware/is-staff');
 const paramsId = require('../middleware/paramsId');
 const { Dish } = require('../models/dish');
 const path = require('path');
+const url = require('url');
 
 //////////////// staff routes /////////////////
 
@@ -20,7 +21,11 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
 
     const { error } = validateMenu(req.body);
 
-    if (error) return res.status(400).send(validateMsg(error));
+    // if (error) return res.status(400).send(validateMsg(error));
+    if (error) return res.status(400).redirect(url.format({
+        pathname: '/menus/new',
+        query: { errMsgs: JSON.stringify(validateMsg(error)) }
+    }));
     
     const dishes = await Dish.find({ name: { $in: req.body.dishesNames } });
 
@@ -49,7 +54,7 @@ router.get('/showAll', [autho, isStaff], asyncMiddleware(async (req, res) => {
 
 router.get('/all', [autho, isStaff], asyncMiddleware(async (req, res) => {
     const menus = await Menu.find().sort('name');
-    const ms = _.map(menus, (menu) => _.pick(menu, ['name', 'date']));
+    const ms = _.map(menus, (menu) => _.pick(menu, ['_id', 'name', 'date']));
 
     for (let i in menus) {
         const dishes = await Dish.find({ _id: { $in: menus[i].dishes } });
@@ -109,9 +114,9 @@ router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
     // const menu = await Menu.findByIdAndRemove(req.params.id);
     // if (!menu) return res.status(404).send('The dish with the given ID was not found.');
 
-    const delMenusNames = JSON.parse(req.body.delMenusNames);
+    const delMenusIds = JSON.parse(req.body.delMenusIds);
 
-    await Menu.deleteMany({ name: { $in: delMenusNames } });
+    await Menu.deleteMany({ _id: { $in: delMenusIds } });
 
     res.sendFile(path.join(__dirname, '../public/menus/deleteSuccess.html'));
 }));

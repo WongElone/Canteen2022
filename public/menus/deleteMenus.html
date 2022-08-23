@@ -14,7 +14,7 @@
     <div id="space1"></div>
 
     <form action="/menus/deletes" method="POST">
-      <input type="hidden" id="input_menus_names" name="delMenusNames" required>
+      <input type="hidden" id="input_menus_ids" name="delMenusIds" required>
       <button class="outmost_button" id="submit_button" type="submit" onclick="dataStringfy()" disabled>Submit Deletes</button>
     </form>
 
@@ -40,11 +40,18 @@
         if (!menus) return;
 
         for (let menu of menus) {
+          // create menu container
           const menuContainer = document.createElement("div");
           document.querySelector('#space1').appendChild(menuContainer);
           menuContainer.classList.add('MenuContainer');
           menuContainer.classList.add('unticked');
           
+          // hidden _id
+          const idBox = document.createElement('div');
+          menuContainer.appendChild(idBox);
+          idBox.classList.add('idBox');
+          idBox.setAttribute('data-menuid', menu._id);
+
           // delete button
           const div = document.createElement('div');
           menuContainer.appendChild(div);
@@ -58,6 +65,8 @@
               : menuContainer.classList.replace('ticked', 'unticked');
             
             submitButtonUpdate();
+
+            console.log(menuContainer.querySelector('.idBox').dataset.menuid);
           }
 
           // menu name
@@ -109,11 +118,17 @@
       function dataStringfy() {
         const tickedContainers = Array.from(document.querySelectorAll('.ticked'));
 
-        const delMenusNames = tickedContainers.reduce((acc, curr) => {
-          return [...acc, curr.querySelector('.MenuName').innerText]
+        // const delMenusNames = tickedContainers.reduce((acc, curr) => {
+        //   return [...acc, curr.querySelector('.MenuName').innerText]
+        // }, []);
+
+        // document.querySelector('#input_menus_names').value = JSON.stringify(delMenusNames);
+
+        const delMenusIds = tickedContainers.reduce((acc, curr) => {
+          return [...acc, curr.querySelector('.idBox').dataset.menuid]
         }, []);
 
-        document.querySelector('#input_menus_names').value = JSON.stringify(delMenusNames);
+        document.querySelector('#input_menus_ids').value = JSON.stringify(delMenusIds);
       }
 
       function submitButtonUpdate() {

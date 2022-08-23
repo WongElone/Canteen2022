@@ -5,13 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Canteen Menu</title>
-    <link rel="stylesheet" href="../styles/common.css">
+    <link rel="stylesheet" href="/styles/common.css">
 </head>
 <body>
     <h1>Welcome back, <%= locals.user.username %></h1>
+    <% if (locals.user.isStaff) { %> 
     <form action="/controls" method="GET">
         <button type="submit" class="outmost_button">Control Panel (staff only)</button>
     </form>
+    <% } %>
     <form action="/menus/showToday" method="GET">
         <button type="submit" class="outmost_button">Today Menus</button>
     </form>

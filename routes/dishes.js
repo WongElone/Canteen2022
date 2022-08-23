@@ -8,7 +8,7 @@ const autho = require('../middleware/autho');
 const isStaff = require('../middleware/is-staff');
 const paramsId = require('../middleware/paramsId');
 const url = require('url');
-const querystring = require('../functions/querystring');
+const path = require('path');
 
 //////////////// staff routes /////////////////
 
@@ -17,7 +17,7 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
     // if (error) return res.status(400).send(validateMsg(error));
     if (error) return res.status(400).redirect(url.format({
         pathname: '/dishes/all',
-        query: { errMsgs: querystring.arr2param(validateMsg(error)) }
+        query: { errMsgs: JSON.stringify(validateMsg(error)) }
     }));
 
     let dish = new Dish(_.pick(req.body, ['name', 'price', 'stock']));
@@ -27,7 +27,7 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
 }));
 
 router.get('/all', [autho, isStaff], asyncMiddleware(async (req, res) => {
-    res.render('dishes/showDishes');
+    res.sendFile(path.join(__dirname, '../public/dishes/showDishes.html'));
 
     // const dishes = await Dish.find().sort('name');
 
@@ -67,7 +67,7 @@ router.put('/:id/staff', [autho, isStaff, paramsId], asyncMiddleware(async (req,
 }));
 
 router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
-    const names = req.body.deletes.split(';,.');
+    const names = JSON.parse(req.body.deletes);
 
     await Dish.deleteMany({ name: { $in: names } });
 

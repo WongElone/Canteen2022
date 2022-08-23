@@ -6,6 +6,7 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const asyncMiddleware = require('../middleware/async-middleware');
 const url = require('url');
+const path = require('path');
 
 router.post('/', asyncMiddleware(async (req, res) => {
     const { error } = validate(req.body);
@@ -13,19 +14,19 @@ router.post('/', asyncMiddleware(async (req, res) => {
     // if (error) return res.status(400).send(validateMsg(error));
     if (error) return res.status(400).redirect(url.format({
         pathname: '/authen/login',
-        query: { errMsgs: [, ...validateMsg(error)] }
+        query: { errMsgs: JSON.stringify(validateMsg(error)) }
     }));
 
     const user = await User.findOne({ username: req.body.username });
     if (!user) return res.status(404).redirect(url.format({
         pathname: '/authen/login',
-        query: { errMsgs: [, 'Incorrect username or password'] }
+        query: { errMsgs: JSON.stringify(['Incorrect username or password']) }
     }));
 
     const validPw = await bcrypt.compare(req.body.password, user.password);
     if (!validPw) return res.status(404).redirect(url.format({
         pathname: '/authen/login',
-        query: { errMsgs: [, 'Invalid username or password'] }
+        query: { errMsgs: JSON.stringify(['Incorrect username or password']) }
     }));
 
     const token = user.generateAuthenToken();
@@ -35,7 +36,7 @@ router.post('/', asyncMiddleware(async (req, res) => {
 }));
 
 router.get('/login', asyncMiddleware((req, res) => {
-    res.render('authen/login', { query: req.query });
+    res.sendFile(path.join(__dirname, '../public/authen/login.html'));
 }));
 
 router.get('/logout', asyncMiddleware((req, res) => {

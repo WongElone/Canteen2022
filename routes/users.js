@@ -56,7 +56,7 @@ router.get('/new', asyncMiddleware(async (req, res) => {
 
 router.get('/welcome', [autho], asyncMiddleware(async (req, res) => {
     const user = await User.findById(req.userPayload._id);
-    res.render('users/welcome', { user: _.pick(user, ['username']) });
+    res.render('users/welcome', { user: _.pick(user, ['username', 'isStaff']) });
 }));
 
 module.exports = router;

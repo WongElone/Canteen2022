@@ -5,8 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Add/Drop Dishes</title>
-    <link rel="stylesheet" href="../styles/common.css">
-    <link rel="stylesheet" href="../styles/menus.css">
+    <link rel="stylesheet" href="../styles/common.css" />
+    <link rel="stylesheet" href="../styles/menus.css" />
   </head>
   <body>
     <h1>Add/Drop Dishes</h1>
@@ -46,17 +46,20 @@
         required
       />
       <div></div>
-      <button type="submit">Submit Dish</button>
+      <button type="submit" id="submit_dish">Submit Dish</button>
     </form>
 
-
     <form action="/dishes/deletes" method="POST">
-        <input type="hidden" name="deletes" id="deletes">
-        <button type="submit" class="outmost_button" onclick="saveDeletes()">Submit Deletes</button>
+      <input type="hidden" name="deletes" id="deletes" />
+      <button type="submit" class="outmost_button" onclick="saveDeletes()">
+        Submit Deletes
+      </button>
     </form>
 
     <form action="/controls" method="GET">
-      <button type="submit" class="outmost_button">Back to Control Panel</button>
+      <button type="submit" class="outmost_button">
+        Back to Control Panel
+      </button>
     </form>
 
     <script>
@@ -81,18 +84,18 @@
         const rows = document.querySelectorAll(".to_delete");
 
         rows.forEach((row) => {
-          row.classList.remove('to_delete');
-          row.querySelector('.button_del').disabled = false;
+          row.classList.remove("to_delete");
+          row.querySelector(".button_del").disabled = false;
         });
       }
 
-        // to be call onclick of the save-deletes button
+      // to be call onclick of the save-deletes button
       function saveDeletes() {
         const names = getDeletes();
-        
+
         // post deletes to server
-        const input = document.querySelector('#deletes');
-        input.setAttribute('value', names.join(';,.'));
+        const input = document.querySelector("#deletes");
+        input.setAttribute("value", JSON.stringify(names));
       }
 
       const dishes = fetch("/dishes/all/data")
@@ -141,15 +144,13 @@
       const params = new URLSearchParams(window.location.search);
 
       if (params.get("errMsgs")) {
-        const errMsgs = params.get("errMsgs").split(";;");
+        const errMsgs = JSON.parse(params.get("errMsgs"));
 
         errMsgs.forEach((msg) => {
-          const div = document.createElement("div");
-          document.body.appendChild(div);
+          const msgBox = document.createElement("span");
+          document.querySelector('#submit_dish').after(msgBox);
 
-          const p = document.createElement("p");
-          p.innerText = "*" + toReadable(msg);
-          div.appendChild(p);
+          msgBox.innerText = " * " + toReadable(msg);
         });
       }
     </script>

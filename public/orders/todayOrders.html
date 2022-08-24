@@ -35,6 +35,23 @@
         if (!orders) return;
 
         const ordersContainers = MyOrder.renderOrders('#space1', orders);
+
+        for (const i in orders) {
+          const order = orders[i];
+          const orderContainer = ordersContainers[i];
+          
+          const username = document.createElement('span');
+          username.classList.add('Username');
+          username.innerText = 'Customer: ' + order.username;
+
+          const phone = document.createElement('span');
+          phone.innerText = ' (Phone: ' + order.phone + ')';
+          phone.classList.add('Phone');
+
+          const customer = document.createElement('div');
+          orderContainer.prepend(customer);
+          customer.append(username, phone);
+        }
       });
     </script>
   </body>

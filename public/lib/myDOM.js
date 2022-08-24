@@ -1,6 +1,4 @@
-var MyMenu = {
-  menusContainers: 1,
-
+const MyMenu = {
   todayMenus(spaceId, menus) {
     const menusContainers = [];
 
@@ -54,6 +52,55 @@ var MyMenu = {
       });
     }
 
-    this.menusContainers = menusContainers;
+    return menusContainers;
   },
+};
+
+const MyOrder = {
+  renderOrders(spaceId, orders) {
+    const ordersContainers = [];
+
+    orders.forEach((order) => {
+      const orderContainer = document.createElement('article');
+      ordersContainers.push(orderContainer);
+      document.querySelector(spaceId).appendChild(orderContainer);
+      orderContainer.classList.add('OrderContainer');
+
+      const timeBox = document.createElement('div');
+      orderContainer.appendChild(timeBox);
+      timeBox.innerText = ' Appointed Time: ' + order.appointTime;
+      timeBox.classList.add('AppointTime');
+      
+      const table = document.createElement('table');
+      orderContainer.appendChild(table);
+      const thead = document.createElement('thead');
+      const tbody = document.createElement('tbody');
+      table.append(thead, tbody);
+
+      const headers = document.createElement('tr');
+      thead.appendChild(headers);
+      const headerDish = document.createElement('th');
+      const headerQty = document.createElement('th');
+      headerDish.innerText = 'Dish';
+      headerQty.innerText = 'Quantity';
+      headers.append(headerDish, headerQty);
+
+      const rows = order.dishesXqtys.reduce((acc, dishXqty) => {
+        const row = document.createElement('tr');
+        const dishName = document.createElement('td');
+        const qty = document.createElement('td');
+
+        dishName.innerText = dishXqty.dishName;
+        qty.innerText = dishXqty.qty;
+
+        row.append(dishName, qty);
+
+        return [...acc, row];
+      }, []);
+
+      tbody.append(...rows);
+    });
+
+    return ordersContainers;
+  }
 };

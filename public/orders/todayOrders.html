@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Today Orders</title>
+    <link rel="stylesheet" href="../styles/common.css" />
+    <link rel="stylesheet" href="../styles/orders.css">
+  </head>
+  <body>
+    <h1>Today Orders</h1>
+    <div id="space1"></div>
+    <form action="/users/welcome" method="GET">
+      <button type="submit" class="outmost_button">Home</button>
+    </form>
+
+    <script src="../lib/myDom.js"></script>
+    <script type="text/javascript">
+        const orders = fetch("/orders/today")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            document.write(`Error ${res.status}`);
+            throw new Error(`Error ${res.status}`);
+          }
+        })
+        .then((d) => {
+          return d;
+        })
+        .catch((err) => console.error(err));
+
+      orders.then((orders) => {
+        if (!orders) return;
+
+        const ordersContainers = MyOrder.renderOrders('#space1', orders);
+      });
+    </script>
+  </body>
+</html>

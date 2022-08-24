@@ -69,5 +69,24 @@ router.get('/customerOrders', [autho, notStaff], asyncMiddleware(async (req, res
     res.send(_.map(orders, (order) => _.pick(order, ['dishesXqtys', 'appointTime'])));
 }));
 
+router.get('/todayOrders', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/orders/todayOrders.html'));
+}));
+
+router.get('/today', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    const orders = await Order.find({ appointDate: myTime.todayHKDate() });
+
+    // add customer info (name and contact)
+    for (const order of orders) {
+        const customer = await User.findById({ _id: order.customerId });
+        if (!customer) return res.status(404).send('customer not found');
+        
+        order.username = customer.username;
+        order.phone = customer.phone;
+    }
+
+    res.send(_.map(orders, (order) => _.pick(order, ['username', 'phone', 'dishesXqtys', 'appointTime'])));
+}));
+
 
 module.exports = router;

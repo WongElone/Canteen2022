@@ -15,7 +15,8 @@
       <button type="submit" class="outmost_button">Home</button>
     </form>
 
-    <script>
+    <script src="../lib/myDom.js"></script>
+    <script type="text/javascript">
         const orders = fetch("/orders/customerOrders")
         .then((res) => {
           if (res.ok) {
@@ -33,6 +34,8 @@
       orders.then((orders) => {
         if (!orders) return;
 
+        const ordersContainers = MyOrder.renderOrders('#space1', orders);
+        /*
         orders.forEach((order) => {
           const space1 = document.querySelector('#space1');
           const orderContainer = document.createElement('article');
@@ -41,7 +44,7 @@
 
           const timeBox = document.createElement('div');
           orderContainer.appendChild(timeBox);
-          timeBox.innerText = ' Appoint Time: ' + order.appointTime;
+          timeBox.innerText = ' Appointed Time: ' + order.appointTime;
           timeBox.classList.add('AppointTime');
           
           const table = document.createElement('table');
@@ -73,7 +76,8 @@
 
           tbody.append(...rows);
         });
-      })
+        */
+      });
     </script>
   </body>
 </html>

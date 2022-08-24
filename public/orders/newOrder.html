@@ -14,7 +14,8 @@
 
     <form action="/orders" method="POST">
       <input type="hidden" id="input_order" name="dishnamesXqtys" required />
-      <input class="outmost_button" type="time" name="appointTime" required>
+      <label for="appoint_time">Appointed Time</label>
+      <input class="outmost_button" type="time" id="appoint_time" name="appointTime" required>
       <button
         class="outmost_button"
         id="submit_button"
@@ -29,8 +30,8 @@
       <button class="outmost_button" type="Submit">Home</button>
     </form>
 
-    <script type="text/javascript" src="../lib/myDOM.js"></script>
-    <script>
+    <script src="../lib/myDOM.js"></script>
+    <script type="text/javascript">
       // fetch menus from server
       const menus = fetch("/menus/today")
         .then((res) => {
@@ -48,9 +49,9 @@
         if (!menus) return;
 
         // display today menus, using MyMenu in the lib, and get the menus containers
-        MyMenu.todayMenus("#space1", menus);
+        const menusContainers = MyMenu.todayMenus("#space1", menus);
 
-        MyMenu.menusContainers.forEach((container) => {
+        menusContainers.forEach((container) => {
           // Add Qty header for Qty column
           const qtyHeader = document.createElement("th");
           qtyHeader.innerText = "Quantity";

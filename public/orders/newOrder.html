@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Make an order</title>
+    <link rel="stylesheet" href="../styles/common.css" />
+    <link rel="stylesheet" href="../styles/menus.css" />
+  </head>
+  <body>
+    <h1>Make an order</h1>
+    <div id="space1"></div>
+
+    <form action="/orders" method="POST">
+      <input type="hidden" id="input_order" name="dishnamesXqtys" required />
+      <input class="outmost_button" type="time" name="appointTime" required>
+      <button
+        class="outmost_button"
+        id="submit_button"
+        type="Submit"
+        disabled
+      >
+        Submit Order
+      </button>
+    </form>
+
+    <form action="/users/welcome" method="GET">
+      <button class="outmost_button" type="Submit">Home</button>
+    </form>
+
+    <script type="text/javascript" src="../lib/myDOM.js"></script>
+    <script>
+      // fetch menus from server
+      const menus = fetch("/menus/today")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            document.write(`Error ${res.status}`);
+            throw new Error(`Error ${res.status}`);
+          }
+        })
+        .then((d) => d)
+        .catch((err) => console.error(err));
+
+      menus.then((menus) => {
+        if (!menus) return;
+
+        // display today menus, using MyMenu in the lib, and get the menus containers
+        MyMenu.todayMenus("#space1", menus);
+
+        MyMenu.menusContainers.forEach((container) => {
+          // Add Qty header for Qty column
+          const qtyHeader = document.createElement("th");
+          qtyHeader.innerText = "Quantity";
+          container.querySelector(".DishPriceHeader").after(qtyHeader);
+
+          // Add elements in Qty column
+          const prices = Array.from(
+            container.querySelectorAll(".DishPriceData")
+          );
+          prices.forEach((price) => {
+            const newData = document.createElement("td");
+            const qtyBox = document.createElement("span");
+            newData.appendChild(qtyBox);
+            price.after(newData);
+
+            const dish = qtyBox.closest(".dish");
+            dish.classList.add("ZeroQty");
+
+            const input = document.createElement("input");
+            qtyBox.appendChild(input);
+            input.classList.add('InputQty');
+            input.disabled = true;
+            input.setAttribute("type", "text");
+            input.setAttribute("size", "1");
+            input.setAttribute("value", "0");
+
+            // create up and down buttons
+            const upButton = document.createElement("button");
+            input.after(upButton);
+            upButton.innerText = "▲";
+
+            const downButton = document.createElement("button");
+            upButton.after(downButton);
+            downButton.innerText = "▼";
+            downButton.disabled = true;
+
+            // up and down buttons onclick actions
+            upButton.onclick = function () {
+              const num = parseInt(input.value);
+              input.value = (num + 1).toString();
+              upButton.disabled = input.value === "9";
+
+              if (input.value != "0") {
+                dish.classList.replace("ZeroQty", "PositiveQty");
+                downButton.disabled = false;
+              }
+
+              submitButtonUpdate();
+            };
+
+            downButton.onclick = function () {
+                const num = parseInt(input.value);
+                input.value = (num - 1).toString();
+                downButton.disabled = input.value === "0";
+
+              if (input.value === "0") {
+                dish.classList.replace("PositiveQty", "ZeroQty");
+              }
+              
+              if (input.value != "9") {
+                upButton.disabled = false;
+              }
+
+              submitButtonUpdate();
+            };
+          });
+        });
+
+
+        document.querySelector('#submit_button').onclick = function() {
+            const orderedDishes = Array.from(document.querySelectorAll('.PositiveQty'));
+
+            // const dishnamesXqtys = orderedDishes.reduce((acc, curr) => {
+            //     return [...acc, {
+            //         dishName: curr.querySelector('.dish_name').innerText,
+            //         qty: parseInt(curr.querySelector('.InputQty').value)
+            //     }]
+            // }, []);
+            
+            // dishnamesXatys: { dishname1: qty1, dishname2: qty2, ... }
+            const dishnamesXqtys = orderedDishes.reduce((acc, curr) => {
+                    const dishName = curr.querySelector('.dish_name').innerText;
+                    const qty = parseInt(curr.querySelector('.InputQty').value);
+                    acc[dishName] = (acc[dishName])? acc[dishName] + qty : qty;
+                    return acc;
+            }, {});
+
+            document.querySelector('#input_order').value = JSON.stringify(dishnamesXqtys);
+        }
+
+        function submitButtonUpdate() {
+          const submitButton = document.querySelector("#submit_button");
+
+          const atLeastOneDish = document.querySelector(".PositiveQty");
+
+          submitButton.disabled = !atLeastOneDish;
+        }
+      });
+    </script>
+  </body>
+</html>

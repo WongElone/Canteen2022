@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>New menu was successfully created</title>
-    <link rel="stylesheet" href="../styles/common.css">
-</head>
-<body>
+    <link rel="stylesheet" href="../styles/common.css" />
+  </head>
+  <body>
     <h1>New menu was successfully created.</h1>
     <form action="/menus/showAll" method="GET">
-        <button type="submit" class="outmost_button">View All Menus</button>
+      <button type="submit" class="outmost_button">View All Menus</button>
     </form>
-</body>
+
+    <form action="/controls" method="GET">
+      <button type="submit" class="outmost_button">
+        Back To Control Panel
+      </button>
+    </form>
+  </body>
 </html>

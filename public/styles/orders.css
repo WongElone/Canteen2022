@@ -1,0 +1,18 @@
+.OrderContainer {
+    border: 5px solid black;
+    margin: 25px;
+    padding: 25px;
+}
+
+.OrderContainer table, .OrderContainer td, .OrderContainer th {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 5px;
+    margin: 5px;
+}
+
+.AppointTime {
+    font-size: large;
+    margin: 5px;
+    font-weight: 900;
+}

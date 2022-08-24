@@ -7,13 +7,15 @@
     <title>Today Menus</title>
     <link rel="stylesheet" href="../styles/common.css">
     <link rel="stylesheet" href="../styles/menus.css">
+
   </head>
   <body>
     <h1>Today Menus</h1>
     <div id="space1"></div>
     <form action="/users/welcome" method="GET">
-        <button id="back_button" class="outmost_button" type="Submit">Home</button>
+        <button class="outmost_button" type="Submit">Home</button>
     </form>
+    <script type="text/javascript" src="../lib/myDOM.js"></script>
     <script>
       // fetch menus from server
       const menus = fetch("/menus/today")
@@ -29,53 +31,56 @@
         .catch((err) => console.error(err));
 
       menus.then((menus) => {
-        if (!menus) return;
+        if (!menus) return;        
 
-        for (let menu of menus) {
-          const menuContainer = document.createElement("div");
-          document.querySelector('#space1').appendChild(menuContainer);
-          menuContainer.classList.add('MenuContainer');
+        MyMenu.todayMenus('#space1', menus);
 
-          const menuName = document.createElement("span");
-          menuName.classList.add('MenuName');
-          menuName.innerText = menu.name;
-          menuContainer.appendChild(menuName);
 
-          // create dishes table skeleton
-          const table = document.createElement("table");
-          menuContainer.appendChild(table);
+        // for (let menu of menus) {
+        //   const menuContainer = document.createElement("div");
+        //   document.querySelector('#space1').appendChild(menuContainer);
+        //   menuContainer.classList.add('MenuContainer');
 
-          const thead = document.createElement("thead");
-          const tbody = document.createElement("tbody");
-          table.append(thead, tbody);
+        //   const menuName = document.createElement("span");
+        //   menuName.classList.add('MenuName');
+        //   menuName.innerText = menu.name;
+        //   menuContainer.appendChild(menuName);
 
-          const headRow = document.createElement("tr");
-          thead.appendChild(headRow);
+        //   // create dishes table skeleton
+        //   const table = document.createElement("table");
+        //   menuContainer.appendChild(table);
 
-          const headRowName = document.createElement("th");
-          headRow.appendChild(headRowName);
-          headRowName.innerText = "Dish Name";
+        //   const thead = document.createElement("thead");
+        //   const tbody = document.createElement("tbody");
+        //   table.append(thead, tbody);
 
-          const headRowPrice = document.createElement("th");
-          headRow.appendChild(headRowPrice);
-          headRowPrice.innerText = "Price (HKD)";
+        //   const headRow = document.createElement("tr");
+        //   thead.appendChild(headRow);
 
-          // Add dishes
-          menu.dishes.forEach((dish) => {
-            const tr = document.createElement("tr");
-            tbody.appendChild(tr);
-            tr.classList.add("dish");
+        //   const headRowName = document.createElement("th");
+        //   headRow.appendChild(headRowName);
+        //   headRowName.innerText = "Dish Name";
 
-            const name = document.createElement("td");
-            tr.appendChild(name);
-            name.innerText = dish.name;
-            name.classList.add("dish_name");
+        //   const headRowPrice = document.createElement("th");
+        //   headRow.appendChild(headRowPrice);
+        //   headRowPrice.innerText = "Price (HKD)";
 
-            const price = document.createElement("td");
-            tr.appendChild(price);
-            price.innerText = "$" + dish.price;
-          });
-        }
+        //   // Add dishes
+        //   menu.dishes.forEach((dish) => {
+        //     const tr = document.createElement("tr");
+        //     tbody.appendChild(tr);
+        //     tr.classList.add("dish");
+
+        //     const name = document.createElement("td");
+        //     tr.appendChild(name);
+        //     name.innerText = dish.name;
+        //     name.classList.add("dish_name");
+
+        //     const price = document.createElement("td");
+        //     tr.appendChild(price);
+        //     price.innerText = "$" + dish.price;
+        //   });
+        // }
       });
     </script>
   </body>

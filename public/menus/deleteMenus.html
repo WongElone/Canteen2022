@@ -15,7 +15,7 @@
 
     <form action="/menus/deletes" method="POST">
       <input type="hidden" id="input_menus_ids" name="delMenusIds" required>
-      <button class="outmost_button" id="submit_button" type="submit" onclick="dataStringfy()" disabled>Submit Deletes</button>
+      <button class="outmost_button" id="submit_button" type="submit" onclick="dataStringify()" disabled>Submit Deletes</button>
     </form>
 
     <form action="/controls" method="GET">
@@ -115,14 +115,8 @@
         }
       });
 
-      function dataStringfy() {
+      function dataStringify() {
         const tickedContainers = Array.from(document.querySelectorAll('.ticked'));
-
-        // const delMenusNames = tickedContainers.reduce((acc, curr) => {
-        //   return [...acc, curr.querySelector('.MenuName').innerText]
-        // }, []);
-
-        // document.querySelector('#input_menus_names').value = JSON.stringify(delMenusNames);
 
         const delMenusIds = tickedContainers.reduce((acc, curr) => {
           return [...acc, curr.querySelector('.idBox').dataset.menuid]

@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { Menu, validateMenu, validateMenuPut } = require('../models/menu');
+const { Menu, validateMenu } = require('../models/menu');
 const _ = require('lodash');
 const { validateMsg } = require('../startup/validation');
 const asyncMiddleware = require('../middleware/async-middleware');
 const autho = require('../middleware/autho');
 const isStaff = require('../middleware/is-staff');
-const paramsId = require('../middleware/paramsId');
 const { Dish } = require('../models/dish');
 const path = require('path');
 const url = require('url');

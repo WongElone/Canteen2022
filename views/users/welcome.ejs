@@ -10,19 +10,21 @@
 <body>
     <h1>Welcome back, <%= locals.user.username %></h1>
     <% if (locals.user.isStaff) { %> 
-    <form action="/controls" method="GET">
-        <button type="submit" class="outmost_button">Control Panel (staff only)</button>
-    </form>
+        <form action="/controls" method="GET">
+            <button type="submit" class="outmost_button">Control Panel (staff only)</button>
+        </form>
+        <form action="/menus/showToday" method="GET">
+            <button type="submit" class="outmost_button">Today Menus</button>
+        </form>
     <% } %>
-    <form action="/menus/showToday" method="GET">
-        <button type="submit" class="outmost_button">Today Menus</button>
-    </form>
-    <form action="/orders/new" method="GET">
-        <button type="submit" class="outmost_button">Order Dishes!</button>
-    </form>
-    <form action="/orders/yourOrders" method="GET">
-        <button type="submit" class="outmost_button">View Your Orders</button>
-    </form>
+    <% if (!locals.user.isStaff) { %> 
+        <form action="/orders/new" method="GET">
+            <button type="submit" class="outmost_button">Order Dishes!</button>
+        </form>
+        <form action="/orders/yourOrders" method="GET">
+            <button type="submit" class="outmost_button">View Your Orders</button>
+        </form>
+    <% } %>
     <form action="/authen/logout" method="GET">
         <button type="submit" class="outmost_button">Logout</button>
     </form>

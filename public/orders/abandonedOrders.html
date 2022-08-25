@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Completed Orders</title>
+    <link rel="stylesheet" href="../styles/common.css" />
+    <link rel="stylesheet" href="../styles/orders.css">
+  </head>
+  <body>
+    <h1>Abandoned Orders</h1>
+    <div id="space1"></div>
+
+    <form action="/orders/deletes" method="POST">
+      <input type="hidden" id="input_orders_ids" name="deleteOrdersIds" required>
+      <button class="outmost_button" id="submit_button" type="submit" disabled>Remove Selected Orders From Database</button>
+    </form>
+
+    <form action="/controls" method="GET">
+      <button type="submit" class="outmost_button">Back to Control Panel</button>
+    </form>
+
+    <script src="../lib/myDOM.js"></script>
+    <script type="text/javascript">
+        const orders = fetch("/orders/abandoned")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            document.write(`Error ${res.status}`);
+            throw new Error(`Error ${res.status}`);
+          }
+        })
+        .then((d) => {
+          return d;
+        })
+        .catch((err) => console.error(err));
+
+      orders.then((orders) => {
+        if (!orders) return;
+
+        const ordersContainers = MyOrder.renderOrders('#space1', orders);
+
+        for (const i in orders) {
+          const order = orders[i];
+          const orderContainer = ordersContainers[i];
+          orderContainer.classList.add('unticked');
+          
+          const username = document.createElement('span');
+          username.classList.add('Username');
+          username.innerText = 'Customer: ' + order.username;
+
+          const phone = document.createElement('span');
+          phone.innerText = ' (Phone: ' + order.phone + ')';
+          phone.classList.add('Phone');
+
+          const customer = document.createElement('div');
+          customer.append(username, phone);
+          
+          // add order id
+          const orderId = document.createElement('div');
+          orderId.classList.add('idBox');
+          orderId.setAttribute('data-orderid', order._id);
+
+          // add complete button
+          const div = document.createElement('div');
+          orderContainer.appendChild(div);
+          const completeButton = document.createElement("input");
+          div.appendChild(completeButton);
+          completeButton.type = 'checkbox';
+          completeButton.onclick = function() {
+            (this.checked)
+              ? orderContainer.classList.replace('unticked', 'ticked')
+              : orderContainer.classList.replace('ticked', 'unticked');
+            
+            submitButtonUpdate();
+          }
+
+          // add all new elements to container
+          orderContainer.prepend(orderId, div, customer);
+        }
+
+        document.querySelector('#submit_button').onclick = function() {
+        const tickedContainers = Array.from(document.querySelectorAll('.ticked'));
+
+        const doneOrdersIds = tickedContainers.map((container) => {
+          return container.querySelector('.idBox').dataset.orderid;
+        });
+
+        document.querySelector('#input_orders_ids').value = JSON.stringify(doneOrdersIds);
+      }        
+
+        function submitButtonUpdate() {
+        const submitButton = document.querySelector('#submit_button');
+
+        const tickedContainer = document.querySelector('.ticked');
+
+        submitButton.disabled = (!tickedContainer);
+      }
+      });
+    </script>
+  </body>
+</html>

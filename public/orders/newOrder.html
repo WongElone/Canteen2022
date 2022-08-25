@@ -15,7 +15,7 @@
     <form action="/orders" method="POST">
       <input type="hidden" id="input_order" name="dishnamesXqtys" required />
       <label for="appoint_time">Appointed Time</label>
-      <input class="outmost_button" type="time" id="appoint_time" name="appointTime" required>
+      <input class="outmost_button" type="time" id="appoint_time" name="appointTime" max="21:00" required>
       <button
         class="outmost_button"
         id="submit_button"
@@ -32,6 +32,9 @@
 
     <script src="../lib/myDOM.js"></script>
     <script type="text/javascript">
+      const currHKTime = new Date().toLocaleString('en-UK', { timeZone: 'Asia/Singapore' }).slice(12, 17);
+      document.querySelector('#appoint_time').setAttribute('min', currHKTime);
+
       // fetch menus from server
       const menus = fetch("/menus/today")
         .then((res) => {
@@ -124,14 +127,6 @@
         document.querySelector('#submit_button').onclick = function() {
             const orderedDishes = Array.from(document.querySelectorAll('.PositiveQty'));
 
-            // const dishnamesXqtys = orderedDishes.reduce((acc, curr) => {
-            //     return [...acc, {
-            //         dishName: curr.querySelector('.dish_name').innerText,
-            //         qty: parseInt(curr.querySelector('.InputQty').value)
-            //     }]
-            // }, []);
-            
-            // dishnamesXatys: { dishname1: qty1, dishname2: qty2, ... }
             const dishnamesXqtys = orderedDishes.reduce((acc, curr) => {
                     const dishName = curr.querySelector('.dish_name').innerText;
                     const qty = parseInt(curr.querySelector('.InputQty').value);

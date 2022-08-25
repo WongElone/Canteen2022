@@ -6,13 +6,11 @@ const asyncMiddleware = require('../middleware/async-middleware');
 const autho = require('../middleware/autho');
 const isStaff = require('../middleware/is-staff');
 const notStaff = require('../middleware/not-staff');
-const { Order, CompletedOrder, validateOrder } = require('../models/order');
+const { Order, validateOrder } = require('../models/order');
 const { Dish } = require('../models/dish');
 const { User } = require('../models/user');
 const path = require('path');
-const url = require('url');
 const myTime = require('../functions/myTime');
-const { constants } = require('buffer');
 
 router.get('/new', [autho, notStaff], asyncMiddleware(async (req, res) => {
     res.sendFile(path.join(__dirname, '../public/orders/newOrder.html'));
@@ -100,13 +98,6 @@ router.post('/completes', [autho, isStaff], asyncMiddleware(async (req, res) => 
 
     const doneOrders = await Order.find({ _id: doneOrdersIds });
 
-    // alternative approach saving done orders to another collection
-    // doneOrders = doneOrders.map((order) => {
-    //     return new CompletedOrder(
-    //         _.pick(order, ['_id', 'customerId', 'dishesXqtys', 'appointTime', 'appointDate'])
-    //         );
-    // });
-
     for (const order of doneOrders) {
         order.isCompleted = true;
         await order.save();
@@ -115,12 +106,16 @@ router.post('/completes', [autho, isStaff], asyncMiddleware(async (req, res) => 
     res.redirect('/orders/todayOrders');
 }));
 
+
 router.get('/completedOrders', [autho, isStaff], asyncMiddleware(async (req, res) => {
     res.sendFile(path.join(__dirname, '../public/orders/completedOrders.html'));
 }));
 
+
 router.get('/areCompleted', [autho, isStaff], asyncMiddleware(async (req, res) => {
-    const orders = await Order.find({ isCompleted: true }).sort('appointTime');
+    const orders = await Order
+    .find({ isCompleted: true })
+    .sort({ appointDate: 1, appointTime: 1 });
 
     // add customer info (name and contact)
     for (const order of orders) {
@@ -133,6 +128,30 @@ router.get('/areCompleted', [autho, isStaff], asyncMiddleware(async (req, res) =
 
     res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishesXqtys', 'appointTime'])));
 }));
+
+
+router.get('/abandonedOrders', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/orders/abandonedOrders.html'));
+}));
+
+
+router.get('/abandoned', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    const orders = await Order
+    .find({ appointDate: { $ne: myTime.todayHKDate() }, isCompleted: false })
+    .sort({ appointDate: 1, appointTime: 1 });
+
+    // add customer info (name and contact)
+    for (const order of orders) {
+        const customer = await User.findById({ _id: order.customerId });
+        if (!customer) return res.status(404).send('customer not found');
+        
+        order.username = customer.username;
+        order.phone = customer.phone;
+    }
+
+    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishesXqtys', 'appointTime'])));
+}));
+
 
 router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
     const deleteOrdersIds = JSON.parse(req.body.deleteOrdersIds);

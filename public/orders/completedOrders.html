@@ -4,17 +4,17 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Orders to be completed</title>
+    <title>Completed Orders</title>
     <link rel="stylesheet" href="../styles/common.css" />
     <link rel="stylesheet" href="../styles/orders.css">
   </head>
   <body>
-    <h1>Orders to be completed</h1>
+    <h1>Completed Orders</h1>
     <div id="space1"></div>
 
-    <form action="/orders/completes" method="POST">
-      <input type="hidden" id="input_orders_ids" name="doneOrdersIds" required>
-      <button class="outmost_button" id="submit_button" type="submit" disabled>Submit Completed Orders</button>
+    <form action="/orders/deletes" method="POST">
+      <input type="hidden" id="input_orders_ids" name="deleteOrdersIds" required>
+      <button class="outmost_button" id="submit_button" type="submit" disabled>Remove Selected Orders From Database</button>
     </form>
 
     <form action="/controls" method="GET">
@@ -23,7 +23,7 @@
 
     <script src="../lib/myDOM.js"></script>
     <script type="text/javascript">
-        const orders = fetch("/orders/today")
+        const orders = fetch("/orders/areCompleted")
         .then((res) => {
           if (res.ok) {
             return res.json();

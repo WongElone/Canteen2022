@@ -32,10 +32,19 @@ const orderSchema = new mongoose.Schema({
     appointDate: {
         type: String,
         required: true
+    },
+
+    isCompleted: {
+        type: Boolean,
+        default: false
     }
 });
 
+// For for yet completed orders
 const Order = mongoose.model('Order', orderSchema);
+
+// For completed orders
+const CompletedOrder = mongoose.model('Completed_Order', orderSchema);
 
 function validateOrder(order) {
     const schema = Joi.object({
@@ -104,6 +113,7 @@ function validateOrderPut(changes) {
 }
 
 module.exports.Order = Order;
+module.exports.CompletedOrder = CompletedOrder;
 module.exports.orderSchema = orderSchema;
 module.exports.validateOrder = validateOrder;
 module.exports.validateOrderPut = validateOrderPut;

@@ -6,16 +6,18 @@ const asyncMiddleware = require('../middleware/async-middleware');
 const autho = require('../middleware/autho');
 const isStaff = require('../middleware/is-staff');
 const notStaff = require('../middleware/not-staff');
-const { Order, validateOrder } = require('../models/order');
+const { Order, CompletedOrder, validateOrder } = require('../models/order');
 const { Dish } = require('../models/dish');
 const { User } = require('../models/user');
 const path = require('path');
 const url = require('url');
 const myTime = require('../functions/myTime');
+const { constants } = require('buffer');
 
 router.get('/new', [autho, notStaff], asyncMiddleware(async (req, res) => {
     res.sendFile(path.join(__dirname, '../public/orders/newOrder.html'));
 }));
+
 
 router.post('/', [autho, notStaff], asyncMiddleware(async (req, res) => {
     const todayHKDate = myTime.todayHKDate();
@@ -59,22 +61,26 @@ router.post('/', [autho, notStaff], asyncMiddleware(async (req, res) => {
     res.sendFile(path.join(__dirname, '../public/orders/newSuccess.html'));
 }));
 
+
 router.get('/yourOrders', [autho, notStaff], asyncMiddleware(async (req, res) => {
     res.sendFile(path.join(__dirname, '../public/orders/yourOrders.html'));
 }));
 
+
 router.get('/customerOrders', [autho, notStaff], asyncMiddleware(async (req, res) => {
-    const orders = await Order.find({ customerId: req.userPayload._id, appointDate: myTime.todayHKDate() });
+    const orders = await Order.find({ customerId: req.userPayload._id, appointDate: myTime.todayHKDate(), isCompleted: false }).sort('appointTime');;
 
     res.send(_.map(orders, (order) => _.pick(order, ['dishesXqtys', 'appointTime'])));
 }));
+
 
 router.get('/todayOrders', [autho, isStaff], asyncMiddleware(async (req, res) => {
     res.sendFile(path.join(__dirname, '../public/orders/todayOrders.html'));
 }));
 
+
 router.get('/today', [autho, isStaff], asyncMiddleware(async (req, res) => {
-    const orders = await Order.find({ appointDate: myTime.todayHKDate() });
+    const orders = await Order.find({ appointDate: myTime.todayHKDate(), isCompleted: false }).sort('appointTime');
 
     // add customer info (name and contact)
     for (const order of orders) {
@@ -85,7 +91,55 @@ router.get('/today', [autho, isStaff], asyncMiddleware(async (req, res) => {
         order.phone = customer.phone;
     }
 
-    res.send(_.map(orders, (order) => _.pick(order, ['username', 'phone', 'dishesXqtys', 'appointTime'])));
+    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishesXqtys', 'appointTime'])));
+}));
+
+
+router.post('/completes', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    const doneOrdersIds = JSON.parse(req.body.doneOrdersIds);
+
+    const doneOrders = await Order.find({ _id: doneOrdersIds });
+
+    // alternative approach saving done orders to another collection
+    // doneOrders = doneOrders.map((order) => {
+    //     return new CompletedOrder(
+    //         _.pick(order, ['_id', 'customerId', 'dishesXqtys', 'appointTime', 'appointDate'])
+    //         );
+    // });
+
+    for (const order of doneOrders) {
+        order.isCompleted = true;
+        await order.save();
+    }
+
+    res.redirect('/orders/todayOrders');
+}));
+
+router.get('/completedOrders', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/orders/completedOrders.html'));
+}));
+
+router.get('/areCompleted', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    const orders = await Order.find({ isCompleted: true }).sort('appointTime');
+
+    // add customer info (name and contact)
+    for (const order of orders) {
+        const customer = await User.findById({ _id: order.customerId });
+        if (!customer) return res.status(404).send('customer not found');
+        
+        order.username = customer.username;
+        order.phone = customer.phone;
+    }
+
+    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishesXqtys', 'appointTime'])));
+}));
+
+router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
+    const deleteOrdersIds = JSON.parse(req.body.deleteOrdersIds);
+
+    await Order.deleteMany({ _id: { $in: deleteOrdersIds }});
+
+    res.sendFile(path.join(__dirname, '../public/orders/deleteSuccess.html'));
 }));
 
 

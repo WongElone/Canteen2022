@@ -1,5 +1,11 @@
-.OrderContainer {
+.OrderContainer.unticked {
     border: 5px solid black;
+    margin: 25px;
+    padding: 25px;
+}
+
+.OrderContainer.ticked {
+    border: 5px solid lightgreen;
     margin: 25px;
     padding: 25px;
 }

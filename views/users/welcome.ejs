@@ -13,11 +13,7 @@
         <form action="/controls" method="GET">
             <button type="submit" class="outmost_button">Control Panel (staff only)</button>
         </form>
-        <form action="/menus/showToday" method="GET">
-            <button type="submit" class="outmost_button">Today Menus</button>
-        </form>
-    <% } %>
-    <% if (!locals.user.isStaff) { %> 
+    <% } else { %>
         <form action="/orders/new" method="GET">
             <button type="submit" class="outmost_button">Order Dishes!</button>
         </form>

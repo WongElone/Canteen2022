@@ -32,9 +32,29 @@
 
     <script src="../lib/myDOM.js"></script>
     <script type="text/javascript">
-      const currHKTime = new Date().toLocaleString('en-UK', { timeZone: 'Asia/Singapore' }).slice(12, 17);
-      document.querySelector('#appoint_time').setAttribute('min', currHKTime);
+      // initialize time button
+      initTimeButton(document.querySelector('#appoint_time'));
+      
+      function initTimeButton(appointTime) {
+        const currHKTime = new Date()
+            .toLocaleString('en-UK', { timeZone: 'Asia/Singapore' })
+            .slice(12, 17);
+        const hour = parseInt(currHKTime.slice(0, 2));
 
+        if (hour >= 21) {
+          appointTime.disabled = true;
+        }
+        else if (hour < 9) {
+          appointTime.setAttribute('min', '10:00');
+          appointTime.setAttribute('value', '10:00');
+        }
+        else {
+          const anHourLater = (hour + 1).toString() + currHKTime.slice(2, 5);
+          appointTime.setAttribute('min', anHourLater);
+          appointTime.setAttribute('value', anHourLater);
+        }
+      }
+      
       // fetch menus from server
       const menus = fetch("/menus/today")
         .then((res) => {

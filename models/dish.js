@@ -47,25 +47,6 @@ function validateDish(dish) {
     return schema.validate(dish);
 }
 
-function validateDishPut(changes) {
-    const schema = Joi.object({
-        name: Joi.string()
-            .min(3)
-            .max(55),
-        
-        price: Joi.number()
-            .min(0)
-            .max(1023),
-        
-        stock: Joi.number()
-            .min(0)
-            .max(255)
-    });
-
-    return schema.validate(changes);
-}
-
 module.exports.dishSchema = dishSchema;
 module.exports.Dish = Dish;
 module.exports.validateDish = validateDish;
-module.exports.validateDishPut = validateDishPut;

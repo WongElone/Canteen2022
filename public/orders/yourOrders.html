@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../styles/orders.css">
   </head>
   <body>
-    <h1>Your Orders</h1>
+    <h1>Your Pending Orders</h1>
     <div id="space1"></div>
     <form action="/users/welcome" method="GET">
       <button type="submit" class="outmost_button">Home</button>
@@ -32,51 +32,13 @@
         .catch((err) => console.error(err));
 
       orders.then((orders) => {
-        if (!orders) return;
+        if (!orders) {
+          const h3 = document.createElement('h3');
+          h3.innerText = 'You have no pending orders.';
+          return document.querySelector('#space1').appendChild(h3);
+        }
 
-        const ordersContainers = MyOrder.renderOrders('#space1', orders);
-        /*
-        orders.forEach((order) => {
-          const space1 = document.querySelector('#space1');
-          const orderContainer = document.createElement('article');
-          space1.appendChild(orderContainer);
-          orderContainer.classList.add('OrderContainer');
-
-          const timeBox = document.createElement('div');
-          orderContainer.appendChild(timeBox);
-          timeBox.innerText = ' Appointed Time: ' + order.appointTime;
-          timeBox.classList.add('AppointTime');
-          
-          const table = document.createElement('table');
-          orderContainer.appendChild(table);
-          const thead = document.createElement('thead');
-          const tbody = document.createElement('tbody');
-          table.append(thead, tbody);
-
-          const headers = document.createElement('tr');
-          thead.appendChild(headers);
-          const headerDish = document.createElement('th');
-          const headerQty = document.createElement('th');
-          headerDish.innerText = 'Dish';
-          headerQty.innerText = 'Quantity';
-          headers.append(headerDish, headerQty);
-
-          const rows = order.dishesXqtys.reduce((acc, dishXqty) => {
-            const row = document.createElement('tr');
-            const dishName = document.createElement('td');
-            const qty = document.createElement('td');
-
-            dishName.innerText = dishXqty.dishName;
-            qty.innerText = dishXqty.qty;
-
-            row.append(dishName, qty);
-
-            return [...acc, row];
-          }, []);
-
-          tbody.append(...rows);
-        });
-        */
+        MyOrder.renderOrders('#space1', orders);
       });
     </script>
   </body>

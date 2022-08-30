@@ -11,7 +11,6 @@ const path = require('path');
 router.post('/', asyncMiddleware(async (req, res) => {
     const { error } = validate(req.body);
 
-    // if (error) return res.status(400).send(validateMsg(error));
     if (error) return res.status(400).redirect(url.format({
         pathname: '/authen/login',
         query: { errMsgs: JSON.stringify(validateMsg(error)) }

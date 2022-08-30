@@ -69,7 +69,11 @@
         .catch((err) => console.error(err));
 
       menus.then((menus) => {
-        if (!menus) return;
+        if (!menus) {
+          const h3 = document.createElement('h3');
+          h3.innerText = 'Our Menus for today have not been posted yet, please visit again later!';
+          return document.querySelector('#space1').appendChild(h3);
+        }
 
         // display today menus, using MyMenu in the lib, and get the menus containers
         const menusContainers = MyMenu.todayMenus("#space1", menus);

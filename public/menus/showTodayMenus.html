@@ -31,56 +31,13 @@
         .catch((err) => console.error(err));
 
       menus.then((menus) => {
-        if (!menus) return;        
+        if (!menus) {
+          const h3 = document.createElement('h3');
+          h3.innerText = 'Menus for today have not been posted yet.';
+          return document.querySelector('#space1').appendChild(h3);
+        }        
 
         MyMenu.todayMenus('#space1', menus);
-
-
-        // for (let menu of menus) {
-        //   const menuContainer = document.createElement("div");
-        //   document.querySelector('#space1').appendChild(menuContainer);
-        //   menuContainer.classList.add('MenuContainer');
-
-        //   const menuName = document.createElement("span");
-        //   menuName.classList.add('MenuName');
-        //   menuName.innerText = menu.name;
-        //   menuContainer.appendChild(menuName);
-
-        //   // create dishes table skeleton
-        //   const table = document.createElement("table");
-        //   menuContainer.appendChild(table);
-
-        //   const thead = document.createElement("thead");
-        //   const tbody = document.createElement("tbody");
-        //   table.append(thead, tbody);
-
-        //   const headRow = document.createElement("tr");
-        //   thead.appendChild(headRow);
-
-        //   const headRowName = document.createElement("th");
-        //   headRow.appendChild(headRowName);
-        //   headRowName.innerText = "Dish Name";
-
-        //   const headRowPrice = document.createElement("th");
-        //   headRow.appendChild(headRowPrice);
-        //   headRowPrice.innerText = "Price (HKD)";
-
-        //   // Add dishes
-        //   menu.dishes.forEach((dish) => {
-        //     const tr = document.createElement("tr");
-        //     tbody.appendChild(tr);
-        //     tr.classList.add("dish");
-
-        //     const name = document.createElement("td");
-        //     tr.appendChild(name);
-        //     name.innerText = dish.name;
-        //     name.classList.add("dish_name");
-
-        //     const price = document.createElement("td");
-        //     tr.appendChild(price);
-        //     price.innerText = "$" + dish.price;
-        //   });
-        // }
       });
     </script>
   </body>

@@ -38,7 +38,11 @@
         .catch((err) => console.error(err));
 
       orders.then((orders) => {
-        if (!orders) return;
+        if (!orders) {
+          const h3 = document.createElement('h3');
+          h3.innerText = 'No abandoned orders found.';
+          return document.querySelector('#space1').appendChild(h3);   
+        }
 
         const ordersContainers = MyOrder.renderOrders('#space1', orders);
 

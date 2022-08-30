@@ -4,12 +4,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Orders in progress</title>
+    <title>Pending Orders</title>
     <link rel="stylesheet" href="../styles/common.css" />
     <link rel="stylesheet" href="../styles/orders.css">
   </head>
   <body>
-    <h1>Orders In Progress</h1>
+    <h1>Pending Orders</h1>
     <div id="space1"></div>
 
     <form action="/orders/completes" method="POST">
@@ -38,7 +38,11 @@
         .catch((err) => console.error(err));
 
       orders.then((orders) => {
-        if (!orders) return;
+        if (!orders) {
+          const h3 = document.createElement('h3');
+          h3.innerText = 'No pending orders found.';
+          return document.querySelector('#space1').appendChild(h3);
+        }
 
         const ordersContainers = MyOrder.renderOrders('#space1', orders);
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { Dish, validateDish, validateDishPut } = require('../models/dish');
+const { Dish, validateDish } = require('../models/dish');
 const _ = require('lodash');
 const { validateMsg } = require('../startup/validation');
 const asyncMiddleware = require('../middleware/async-middleware');
@@ -28,13 +28,6 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
 
 router.get('/all', [autho, isStaff], asyncMiddleware(async (req, res) => {
     res.sendFile(path.join(__dirname, '../public/dishes/showDishes.html'));
-
-    // const dishes = await Dish.find().sort('name');
-
-    // res.render('dishes/showDishes', { 
-    //     dishes: _.map(dishes, (dish) => _.pick(dish, ['name', 'price'])),
-    //     query: req.query
-    // });
 }));
 
 router.get('/all/data', [autho, isStaff], asyncMiddleware(async (req, res) => {
@@ -43,28 +36,6 @@ router.get('/all/data', [autho, isStaff], asyncMiddleware(async (req, res) => {
     res.send(_.map(dishes, (dish) => _.pick(dish, ['name', 'price'])));
 }));
 
-router.get('/:id/staff', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
-    const dish = await Dish.findById(req.params.id);
-    if (!dish) return res.status(404).send('The dish with the given ID was not found.');
-
-    res.send(dish);
-}));
-
-router.put('/:id/staff', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
-    const { error } = validateDishPut(req.body);
-    if (error) return res.status(400).send(validateMsg(error));
-
-    const dish = await Dish.findById(req.params.id);
-    if (!dish) return res.status(404).send('The dish with the given ID was not found.');
-
-    for (let key in req.body) {
-        dish[key] = req.body[key];
-    }
-
-    await dish.save();
-    
-    res.send(dish);
-}));
 
 router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
     const names = JSON.parse(req.body.deletes);
@@ -74,12 +45,6 @@ router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
     res.redirect('all');
 }));
 
-router.delete('/:id/staff', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
-    const dish = await Dish.findByIdAndRemove(req.params.id);
-    if (!dish) return res.status(404).send('The dish with the given ID was not found.');
-
-    res.send(dish);
-}));
 
 
 ////////////// customer routes ////////////////
@@ -93,13 +58,6 @@ router.get('/current', asyncMiddleware(async (req, res) => {
             return acc;
         }, [])
     );
-}));
-
-router.get('/:id/customer', [autho, paramsId], asyncMiddleware(async (req, res) => {
-    const dish = await Dish.findById(req.params.id);
-    if (!dish) return res.status(404).send('The dish with the given ID was not found.');
-
-    res.send(_.pick(dish, ['name', 'price', 'stock']));
 }));
 
 module.exports = router;

@@ -20,7 +20,6 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
 
     const { error } = validateMenu(req.body);
 
-    // if (error) return res.status(400).send(validateMsg(error));
     if (error) return res.status(400).redirect(url.format({
         pathname: '/menus/new',
         query: { errMsgs: JSON.stringify(validateMsg(error)) }
@@ -39,7 +38,6 @@ router.post('/', [autho, isStaff], asyncMiddleware(async (req, res) => {
 
     await menu.save();
 
-    // res.sendFile(path.join(__dirname, '../public/menus/showMenus.html'));
     res.sendFile(path.join(__dirname, '../public/menus/newSuccess.html'));
 }));
 
@@ -67,52 +65,8 @@ router.get('/deleteMenus', [autho, isStaff], asyncMiddleware(async (req, res) =>
     res.sendFile(path.join(__dirname, '../public/menus/deleteMenus.html'));
 }));
 
-// router.get('/menu/:id', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
-//     const menu = await Menu.findById(req.params.id);
-//     if (!menu) return res.status(404).send('The dish with the given ID was not found.');
-
-//     res.send(menu);
-// }));
-
-// router.put('/menu/:id', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
-//     const { error } = validateMenuPut(req.body);
-//     if (error) return res.status(400).send(validateMsg(error));
-
-//     let menu = await Menu.findById(req.params.id);
-//     if (!menu) return res.status(404).send('The dish with the given ID was not found.');
-
-//     for (let key in req.body) {
-//         if (key === 'dishesId') {
-//             const dishes = [];
-//             for (let id of req.body.dishesId) {
-//                 const dish = await Dish.findById(id);
-//                 if (!dish) return res.status(404).send(`The dish with the given ID: ${curr} was not found.`);
-        
-//                 dishes.push(dish);
-//             }
-
-//             menu.dishes = dishes;
-//         }
-//         else
-//             menu[key] = req.body[key];
-//     }
-
-//     await menu.save();
-    
-//     res.send(menu);
-// }));
-
-// router.delete('/menu/:id', [autho, isStaff, paramsId], asyncMiddleware(async (req, res) => {
-//     const menu = await Menu.findByIdAndRemove(req.params.id);
-//     if (!menu) return res.status(404).send('The dish with the given ID was not found.');
-
-//     res.send(menu);
-// }));
 
 router.post('/deletes', [autho, isStaff], asyncMiddleware(async (req, res) => {
-    // const menu = await Menu.findByIdAndRemove(req.params.id);
-    // if (!menu) return res.status(404).send('The dish with the given ID was not found.');
-
     const delMenusIds = JSON.parse(req.body.delMenusIds);
 
     await Menu.deleteMany({ _id: { $in: delMenusIds } });

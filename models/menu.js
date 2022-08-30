@@ -20,7 +20,7 @@ const menuSchema = new mongoose.Schema({
         required: true
     }
 
-    // later add session and repeat frequency
+    // later add repeat frequency
 });
 
 const Menu = mongoose.model('Menu', menuSchema);
@@ -41,7 +41,7 @@ function validateMenu(menu) {
                 .pattern(/[0-9]{2}[/][0-9]{2}[/][0-9]{4}/)
                 .required()
 
-        // later add session and repeat frequency
+        // later add repeat frequency
     });
 
     const joiValid = schema.validate(menu);
@@ -49,27 +49,6 @@ function validateMenu(menu) {
     return ((joiValid.error) ? schema.validate(menu) : myValidation.validateDate(menu.date));
 }
 
-function validateMenuPut(changes) {
-    const schema = Joi.object({
-        name: Joi.string()
-                .min(3)
-                .max(55),
-
-        dishesId: Joi.array()
-                .items(Joi.string().min(3).max(55)),
-
-        date: Joi.string()
-                .pattern(/[0-9]{2}[/][0-9]{2}[/][0-9]{4}/)
-
-        // later add session and repeat frequency
-    });
-
-    const joiValid = schema.validate(menu);
-    
-    return ((joiValid.error) ? joiValid : myValidation.validateDate(menu.date));
-}
-
 module.exports.menuSchema = menuSchema;
 module.exports.Menu = Menu;
 module.exports.validateMenu = validateMenu;
-module.exports.validateMenuPut = validateMenuPut;

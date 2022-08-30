@@ -110,7 +110,14 @@
 
       // print available dishes
       dishes.then((dishes) => {
-        if (!dishes) return;
+        if (dishes.length === 0) {
+          document.querySelector('#add_to_menu').disabled = true;
+          const tr = document.createElement("tr");
+          document.querySelector("#available_dishes").appendChild(tr);
+          tr.innerText = 'No Available Dishes Found!';
+          return;
+        }
+
         const tbody = document.querySelector("#available_dishes");
 
         dishes.forEach((dish) => {

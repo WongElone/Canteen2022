@@ -37,7 +37,7 @@
         .catch((err) => console.error(err));
 
       menus.then((menus) => {
-        if (!menus) {
+        if (menus.length === 0) {
           const h3 = document.createElement('h3');
           h3.innerText = 'No menus found.';
           return document.querySelector('#space1').appendChild(h3);

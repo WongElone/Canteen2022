@@ -12,8 +12,8 @@
   <body>
     <h1>Today Menus</h1>
     <div id="space1"></div>
-    <form action="/users/welcome" method="GET">
-        <button class="outmost_button" type="Submit">Home</button>
+    <form action="/controls" method="GET">
+        <button class="outmost_button" type="Submit">Back to Control Panel</button>
     </form>
     <script type="text/javascript" src="../lib/myDOM.js"></script>
     <script>
@@ -31,7 +31,7 @@
         .catch((err) => console.error(err));
 
       menus.then((menus) => {
-        if (!menus) {
+        if (menus.length === 0) {
           const h3 = document.createElement('h3');
           h3.innerText = 'Menus for today have not been posted yet.';
           return document.querySelector('#space1').appendChild(h3);

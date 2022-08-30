@@ -32,7 +32,7 @@
         .catch((err) => console.error(err));
 
       orders.then((orders) => {
-        if (!orders) {
+        if (orders.length === 0) {
           const h3 = document.createElement('h3');
           h3.innerText = 'You have no pending orders.';
           return document.querySelector('#space1').appendChild(h3);

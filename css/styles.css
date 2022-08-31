@@ -48,3 +48,71 @@ h3 {
 p {
     margin-top: 0;
 }
+
+/* Links */
+a {
+    text-decoration: none;
+}
+
+.link-arrow {
+    color: var(--color-primary);
+    text-transform: uppercase;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.link-arrow::after {
+    content: '→';
+    margin-left: 5px;
+    transition: margin 0.15s;
+}
+
+.link-arrow:hover::after {
+    margin-left: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    .link-arrow {
+        font-size: 1.5rem;
+    }
+}
+
+/* Buttons */
+.btn {
+    border-radius: 40px;
+    border: 0;
+    cursor: pointer;
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 1rem;
+    padding: 1rem 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    transition: transform 0.2s ease-out;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: #e0e0e0;
+    transform: scale(1.05);
+}
+
+.btn--primary {
+    background: var(--color-primary);
+    color: #fff;
+}
+
+.btn--primary:hover {
+    background: #8eadac;
+    transform: scale(1.05);
+}
+
+.btn--secondary {
+    background: var(--color-secondary);
+    color: #fff;
+}
+
+.btn--secondary:hover {
+    background: #8eadac;
+    transform: scale(1.05);
+}

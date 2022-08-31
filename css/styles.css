@@ -84,7 +84,7 @@ a {
     cursor: pointer;
     font-size: 2rem;
     font-weight: 600;
-    margin: 1rem;
+    margin: 1rem 0;
     padding: 1rem 2rem;
     text-align: center;
     text-transform: uppercase;
@@ -115,4 +115,33 @@ a {
 .btn--secondary:hover {
     background: #8eadac;
     transform: scale(1.05);
+}
+
+.btn--block {
+    width: 100%;
+    display: inline-block;
+}
+
+/* Inputs */
+.text-input {
+    border-radius: 10px;
+    border-color: var(--color-heading);
+    color: var(--color-heading);
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+    font-size: 2rem;
+    margin: 1rem 0rem;
+}
+
+.text-input::placeholder {
+    color: var(--color-primary);
+}
+
+.text-input::selection {
+    color: #fff;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.text-input--block {
+    width: 100%;
 }

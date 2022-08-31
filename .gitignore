@@ -4,4 +4,3 @@ middleware/is-admin.js
 try.html
 try.ejs
 views/dishes/showDishes(old).ejs
-components_templates/**

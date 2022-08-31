@@ -276,3 +276,36 @@ a {
         opacity: 1;
     }
 }
+
+/* Containers */
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Blocks */
+.block {
+    --padding-vertical: 6rem;
+    padding: var(--padding-vertical) 2rem;
+}
+
+.block--dark {
+    background: #000;
+    color: var(--color-light);
+}
+
+.block--dark h1,
+.block--dark h2,
+.block--dark h3 {
+    color: var(--color-lighter);
+}
+
+.block--skewed-left {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    padding-bottom: calc(var(--padding-vertical) + 8rem);
+}
+
+.block--skewed-right {
+    padding-bottom: calc(var(--padding-vertical) + 8rem);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+}

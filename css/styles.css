@@ -1,0 +1,50 @@
+:root {
+    --color-primary: #437a79;
+    --color-secondary: #7D9D9C;
+    --color-light: #E4DCCF;
+    --color-lighter: #F0EBE3;
+    --color-heading: #2c3435;
+    --color-body: #667677;
+}
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+/* Typography */
+html {
+    /* 62.5% of 16px = 10px */
+    font-size: 62.5%;
+}
+
+body {
+    font-family: 'Noto Sans', 'Noto Sans TC', Arial, Helvetica, sans-serif;
+    font-size: 2.4rem;
+    line-height: 1.5;
+    color: var(--color-body);
+}
+
+h1,
+h2,
+h3 {
+    color: var(--color-heading);
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 6rem;
+}
+
+h2 {
+    font-size: 4rem;
+}
+
+h3 {
+    font-size: 3rem;
+}
+
+p {
+    margin-top: 0;
+}

@@ -177,3 +177,30 @@ a {
     justify-content: center;
     align-items: center;
 }
+
+/* Collapsibles */
+.collapsible__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.collapsible__content {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.collapsible__chevron {
+    transition: transform 0.3s;
+}
+
+.collapsible--expanded .collapsible__content{
+    max-height: 100vh;
+    opacity: 1;
+}
+
+.collapsible--expanded .collapsible__chevron {
+    transform: rotate(90deg);
+}

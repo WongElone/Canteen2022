@@ -123,14 +123,18 @@ a {
 }
 
 /* Inputs */
-.text-input {
-    border-radius: 10px;
+.input {
+    outline: 0;
     border-color: var(--color-heading);
     color: var(--color-heading);
-    background: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.text-input {
+    border-radius: 10px;
     padding: 0.5rem 1rem;
     font-size: 2rem;
-    margin: 1rem 0rem;
+    margin: 0.2rem 0 2.5rem;
 }
 
 .text-input::placeholder {
@@ -145,6 +149,75 @@ a {
 .text-input--block {
     width: 100%;
 }
+
+.input__label {
+    display: block;
+}
+
+/* Checkboxes */
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    --checkbox-size: 2rem;
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+}
+
+.checkbox {
+    position: absolute;
+    cursor: pointer;
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    opacity: 0;
+    /* opacity: 0; */
+    /* -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none; */
+}
+
+.checkbox__bg {
+    position: absolute;
+    display: inline-block;
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    border: 2px solid var(--color-heading);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.checkbox__caption {
+    position: relative;
+    /* left: calc(-1 * var(--checkbox-size)); */
+    padding-left: 0.5rem;
+}
+
+/* When the checkbox is hovered, darken background */
+.checkbox:hover ~ .checkbox__bg {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.checkbox__mark {
+    height: var(--checkbox-size);
+    width: var(--checkbox-size);
+    display: none;
+    position: absolute;
+}
+
+/* When the checkbox is checked, show the check mark */
+.checkbox:checked ~ .checkbox__mark {
+    display: block;
+}
+
+.checkbox-section {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    font-size: 2rem;
+}
+
 
 /* Grids */
 .grid {
@@ -371,4 +444,17 @@ a {
     .hero__header h3 {
         padding: 0;
     }
+}
+
+/* Forms */
+.form {
+    text-align: left;
+    padding: 3rem;
+    border: 2px solid grey;
+    border-radius: 30px;
+    background: rgba(125, 125, 125, 0.1);
+}
+
+.form .text-input--block {
+    max-width: 400px;
 }

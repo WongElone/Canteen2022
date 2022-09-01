@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="../styles/common.css">
+  </head>
+  <body>
+    <form action="/users" method="POST">
+      <label for="username">Username*</label>
+      <input
+        type="text"
+        name="username"
+        id="username"
+        minlength="3"
+        maxlength="55"
+        size="22"
+        placeholder="A-z 0-9"
+        required
+      />
+      <div></div>
+      <label for="password">Password*</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        minlength="8"
+        maxlength="32"
+        size="22"
+        placeholder="A-z 0-9 (At least 8 characters)"
+        required
+      />
+      <div></div>
+      <label for="confirm_password">Confirm Password*</label>
+      <input
+        type="password"
+        name="confirm_password"
+        id="confirm_password"
+        minlength="8"
+        maxlength="32"
+        size="22"
+        placeholder="Type your password again"
+        required
+      />
+      <div></div>
+      <label for="phone">Phone No.*</label>
+      <input
+        type="text"
+        name="phone"
+        id="phone"
+        size="6"
+        minlength="8"
+        maxlength="8"
+        required
+      />
+      <div></div>
+      <button class="outmost_button" type="submit">Sign Up</button>
+    </form>
+    <form action="/authen/login" method="GET">
+      <button class="outmost_button" type="submit">I have an account</button>
+    </form>
+    <form action="/" method="GET">
+      <button class="outmost_button" type="submit">Home</button>
+    </form>
+
+    <script type="text/javascript">
+      function toReadable(msg) {
+        if (msg.includes("name") && msg.includes("phone"))
+          return "Username or phone no. already taken";
+
+        if (msg.includes("name") && msg.includes("pattern"))
+          return "Username does not allow special characters";
+
+        if (msg.includes("password") && msg.includes("pattern"))
+          return "Password does not allow special characters";
+
+        if (msg.includes("ref:password")) return "Passwords did not match";
+
+        if (msg.includes("phone") && msg.includes("pattern"))
+          return "Phone no. must be numberals";
+
+        if (msg.includes("phone") && msg.includes("length"))
+          return "Phone no. must be 8-digit";
+
+        return msg;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+
+      if (params.get("errMsgs")) {
+        const errMsgs = params.get("errMsgs").split(";;");
+        console.log(errMsgs);
+
+        errMsgs.forEach((msg) => {
+          const div = document.createElement("div");
+          const p = document.createElement("p");
+          p.innerText = "*" + toReadable(msg);
+          div.appendChild(p);
+          document.body.appendChild(div);
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -4,102 +4,156 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="../styles/common.css">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/52a93cbf3b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
   </head>
   <body>
-    <form action="/users" method="POST">
-      <label for="username">Username*</label>
-      <input
-        type="text"
-        name="username"
-        id="username"
-        minlength="3"
-        maxlength="55"
-        maxlength="32"
-        size="22"
-        placeholder="A-z 0-9"
-        required
-      />
-      <div></div>
-      <label for="password">Password*</label>
-      <input
-        type="password"
-        name="password"
-        id="password"
-        minlength="8"
-        maxlength="32"
-        size="22"
-        placeholder="A-z 0-9 (At least 8 characters)"
-        required
-      />
-      <div></div>
-      <label for="confirm_password">Confirm Password*</label>
-      <input
-        type="password"
-        name="confirm_password"
-        id="confirm_password"
-        minlength="8"
-        maxlength="32"
-        size="22"
-        placeholder="Type your password again"
-        required
-      />
-      <div></div>
-      <label for="phone">Phone No.*</label>
-      <input
-        type="text"
-        name="phone"
-        id="phone"
-        size="6"
-        minlength="8"
-        maxlength="8"
-        required
-      />
-      <div></div>
-      <button class="outmost_button" type="submit">Sign Up</button>
-    </form>
-    <form action="/authen/login" method="GET">
-      <button class="outmost_button" type="submit">I have an account</button>
-    </form>
-    <form action="/" method="GET">
-      <button class="outmost_button" type="submit">Home</button>
-    </form>
+    <section class="nav collapsible">
+      <header class="nav__header">
+        <a class="nav__heading" href="/">The Best Canteen</a>
+      </header>
+      <span class="icon-container collapsible__toggler">
+        <i class="icon collapsible__bar fa-solid fa-bars"></i>
+        <i class="icon collapsible__chevron fa-solid fa-chevron-right"></i>
+      </span>
+      <ul class="list nav__content collapsible__content">
+        <li class="list__item nav__item">
+          <form action="/authen/login" method="Get">
+            <button class="btn" type="submit">Login</button>
+          </form>
+        </li>
+        <li class="list__item nav__item">
+          <form action="/users/new" method="Get">
+            <button class="btn" type="submit">Sign Up</button>
+          </form>
+        </li>
+      </ul>
+    </section>
 
-    <script type="text/javascript">
-      function toReadable(msg) {
-        if (msg.includes("name") && msg.includes("phone"))
-          return "Username or phone no. already taken";
+    <section class="block">
+      <div class="container">
+        <form action="/users" method="POST" class="form">
+          <label class="input__label" for="username">Username*</label>
+          <input
+            id="username"
+            class="input text-input text-input--block"
+            type="text"
+            name="username"
+            minlength="3"
+            maxlength="55"
+            placeholder="A-z 0-9 (At least 3 characters)"
+            required
+          />
 
-        if (msg.includes("name") && msg.includes("pattern"))
-          return "Username does not allow special characters";
+          <label class="input__label" for="password">Password*</label>
+          <input
+            id="password"
+            class="input text-input text-input--block password-input"
+            type="password"
+            name="password"
+            minlength="8"
+            maxlength="32"
+            placeholder="A-z 0-9 (At least 8 characters)"
+            required
+          />
+          
+          <label class="input__label" for="password">Confirm Password*</label>
+          <input
+            id="confirm_password"
+            class="input text-input text-input--block password-input"
+            type="password"
+            name="confirm_password"
+            minlength="8"
+            maxlength="32"
+            placeholder="Type your password again"
+            required
+          />
 
-        if (msg.includes("password") && msg.includes("pattern"))
-          return "Password does not allow special characters";
+          <label class="input__label" for="password">Phone No.*</label>
+          <input
+            id="phone"
+            class="input text-input text-input--phone"
+            type="text"
+            name="phone"
+            minlength="8"
+            maxlength="8"
+            placeholder="Type your 8-digit phone no."
+            required
+          />
 
-        if (msg.includes("ref:password")) return "Passwords did not match";
+          <div class="checkbox-section">
+            <label class="checkbox-container">
+              <input class="checkbox" type="checkbox" required/>
+              <span class="checkbox__bg"></span>
+              <img
+                class="checkbox__mark"
+                src="../images/check-solid.svg"
+                alt=""
+              />
+            </label>
+            <div class="checkbox__caption">Accept Terms and Conditions*</div>
+          </div>
 
-        if (msg.includes("phone") && msg.includes("pattern"))
-          return "Phone no. must be numberals";
+          <button id="login_button" class="btn btn--secondary" type="submit">
+            Create Account
+          </button>
 
-        if (msg.includes("phone") && msg.includes("length"))
-          return "Phone no. must be 8-digit";
-
-        return msg;
-      }
-
+        <a class="link-arrow" href="/authen/login">Already have an account? Click Here</a>
+        </form>
+      </div>
+    </section>
+    <script src="../lib/collapsibles.js"></script>
+    <script>
       const params = new URLSearchParams(window.location.search);
-
-      if (params.get("errMsgs")) {
-        const errMsgs = params.get("errMsgs").split(";;");
-        console.log(errMsgs);
-
+      const errMsgs = JSON.parse(params.get("errMsgs"));
+      if (errMsgs) {
         errMsgs.forEach((msg) => {
-          const div = document.createElement("div");
-          const p = document.createElement("p");
-          p.innerText = "*" + toReadable(msg);
-          div.appendChild(p);
-          document.body.appendChild(div);
+          let target = document.body;
+          let msgBox = document.createElement("div");
+          msgBox.classList.add("err-msg");
+
+          if (msg.includes("name") && msg.includes("phone")) {
+            msgBox.innerText = " *Username or phone no. already taken";
+            target = document.querySelector("#login_button");
+
+          } else if (msg.includes("name") && msg.includes("pattern")) {
+            msgBox.innerText = " *Username does not allow special characters";
+            target = document.querySelector("#username");
+
+          } else if (msg.includes("password") && msg.includes("pattern")) {
+            msgBox.innerText = " *Password does not allow special characters";
+            target = document.querySelector("#password");
+          
+          } else if (msg.includes("ref:password")) {
+            msgBox.innerText = " *Passwords did not match";
+            target = document.querySelector("#confirm_password");
+
+          } else if (msg.includes("phone") && msg.includes("pattern")) {
+            msgBox.innerText = " *Phone no. must be numberals";
+            target = document.querySelector("#phone");
+
+          } else if (msg.includes("phone") && msg.includes("pattern")) {
+            msgBox.innerText = " *Phone no. must be 8-digit";
+            target = document.querySelector("#phone");
+            
+          } else {
+            msgBox.innerText = " " + msg;
+            target = document.querySelector("#login_button");
+          }
+
+          target.after(msgBox);
+          target.classList.toggle('input--wrong');
         });
       }
     </script>

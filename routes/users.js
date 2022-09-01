@@ -23,7 +23,7 @@ router.post('/', asyncMiddleware(async (req, res) => {
         pathname: '/users/new',
         query: {
             // errMsgs: [, ...validateMsg(error)]
-            errMsgs: querystring.arr2param(validateMsg(error))
+            errMsgs: JSON.stringify(validateMsg(error))
         }
     }));
 
@@ -43,7 +43,7 @@ router.post('/', asyncMiddleware(async (req, res) => {
             res.redirect(url.format({
                 pathname: 'users/new',
                 query: {
-                    errMsgs: [,'Username or phone number already taken']
+                    errMsgs: JSON.stringify(['Username or phone number already taken'])
                 }
             }));
         });

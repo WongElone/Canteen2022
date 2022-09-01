@@ -1,15 +1,22 @@
-<section class="nav collapsible collapsible--expanded">
+<section class="nav collapsible">
   <header class="nav__header">
-    <p class="nav__heading">Heading</p>
+    <p class="nav__heading">The Best Canteen</p>
   </header>
   <span class="icon-container collapsible__toggler">
     <i class="icon collapsible__bar fa-solid fa-bars"></i>
     <i class="icon collapsible__chevron fa-solid fa-chevron-right"></i>
   </span>
   <ul class="list nav__content collapsible__content">
-    <li class="list__item">Item 2</li>
-    <li class="list__item">Item 1</li>
-    <li class="list__item">Item 3</li>
+    <li class="list__item nav__item">
+      <form action="/authen/login" method="Get">
+        <button class="btn" type="submit">Login</button>
+      </form>
+    </li>
+    <li class="list__item nav__item">
+      <form action="/users/new" method="Get">
+        <button class="btn" type="submit">Sign Up</button>
+      </form>
+    </li>
   </ul>
 </section>
-<script src="functions/collapsibles.js"></script>
+<script src="lib/collapsibles.js"></script>

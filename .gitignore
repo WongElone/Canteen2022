@@ -3,4 +3,6 @@ try.js
 middleware/is-admin.js
 try.html
 try.ejs
+try2.html
+try2.js
 views/dishes/showDishes(old).ejs

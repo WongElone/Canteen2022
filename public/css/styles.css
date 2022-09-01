@@ -52,6 +52,7 @@ p {
 /* Links */
 a {
     text-decoration: none;
+    /* color: var(--color-light); */
 }
 
 .link-arrow {
@@ -125,20 +126,27 @@ a {
 /* Inputs */
 .input {
     outline: 0;
-    border-color: var(--color-heading);
+    border: 2px solid var(--color-heading);
     color: var(--color-heading);
     background-color: rgba(0, 0, 0, 0.1);
 }
 
 .text-input {
+    font-family: sans-serif;
+    letter-spacing: 0.5px;
     border-radius: 10px;
     padding: 0.5rem 1rem;
     font-size: 2rem;
-    margin: 0.2rem 0 2.5rem;
+    margin-top: 0.2rem;
+}
+
+.input--wrong {
+    border-color: red;
 }
 
 .text-input::placeholder {
     color: var(--color-primary);
+    opacity: 0.5;
 }
 
 .text-input::selection {
@@ -152,6 +160,11 @@ a {
 
 .input__label {
     display: block;
+    margin-top: 1.5rem;
+}
+
+.input__label:first-of-type {
+    margin-top: 0;
 }
 
 /* Checkboxes */
@@ -216,6 +229,7 @@ a {
     align-items: center;
     justify-content: left;
     font-size: 2rem;
+    margin: 2rem 0 1rem;
 }
 
 
@@ -317,13 +331,14 @@ a {
 }
 
 .nav__header {
-    padding: 0rem 1rem;
+    padding: 0rem 2rem;
 }
 
 .nav__heading {
     font-size: 4rem;
-    padding: 0;
-    margin: 1rem;
+    position: relative;
+    top: 0.8rem;
+    color: var(--color-light);
 }
 
 .nav__content {
@@ -453,8 +468,15 @@ a {
     border: 2px solid grey;
     border-radius: 30px;
     background: rgba(125, 125, 125, 0.1);
+    overflow: hidden;
 }
 
 .form .text-input--block {
     max-width: 400px;
+}
+
+/* Error Messages */
+.err-msg {
+    font-size: 1.25rem;
+    color: red;
 }

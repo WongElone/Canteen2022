@@ -5,64 +5,118 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="/styles/common.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/52a93cbf3b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
   </head>
   <body>
-    <form action="/authen" method="POST">
-      <div>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          minlength="3"
-          maxlength="55"
-          placeholder="username"
-          required
-        />
+    <section class="nav collapsible">
+      <header class="nav__header">
+        <a class="nav__heading" href="/">The Best Canteen</a>
+      </header>
+      <span class="icon-container collapsible__toggler">
+        <i class="icon collapsible__bar fa-solid fa-bars"></i>
+        <i class="icon collapsible__chevron fa-solid fa-chevron-right"></i>
+      </span>
+      <ul class="list nav__content collapsible__content">
+        <li class="list__item nav__item">
+          <form action="/authen/login" method="Get">
+            <button class="btn" type="submit">Login</button>
+          </form>
+        </li>
+        <li class="list__item nav__item">
+          <form action="/users/new" method="Get">
+            <button class="btn" type="submit">Sign Up</button>
+          </form>
+        </li>
+      </ul>
+    </section>
+    <section class="block">
+      <div class="container">
+        <form action="/authen" method="POST" class="form">
+          <label class="input__label" for="username">Username</label>
+          <input
+            id="username"
+            class="input text-input"
+            type="text"
+            name="username"
+            id="username"
+            minlength="3"
+            maxlength="55"
+            placeholder="username"
+            required
+          />
+
+          <label class="input__label" for="password">Password</label>
+          <input
+            id="password"
+            class="input text-input password-input"
+            type="password"
+            name="password"
+            id="password"
+            minlength="8"
+            maxlength="32"
+            placeholder="password"
+            required
+          />
+
+          <div class="checkbox-section">
+            <label class="checkbox-container">
+              <input class="checkbox" type="checkbox" />
+              <span class="checkbox__bg"></span>
+              <img
+                class="checkbox__mark"
+                src="../images/check-solid.svg"
+                alt=""
+              />
+            </label>
+            <div class="checkbox__caption">Remember Me</div>
+          </div>
+
+          <button id="login_button" class="btn btn--secondary" type="submit">
+            Login
+          </button>
+        </form>
       </div>
-      <div>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          minlength="8"
-          maxlength="32"
-          placeholder="password"
-          required
-        />
-      </div>
-      <div>
-        <button type="submit" id="login_button">Login</button>
-      </div>
-    </form>
-    <form action="/users/new" method="GET">
-      <button class="outmost_button" type="submit">
-        Create New Account
-      </button>
-    </form>
-    <form action="/" method="GET">
-      <button class="outmost_button" type="submit">Home</button>
-    </form>
+    </section>
+    <script src="../lib/collapsibles.js"></script>
     <script>
       const params = new URLSearchParams(window.location.search);
       const errMsgs = JSON.parse(params.get("errMsgs"));
       if (errMsgs) {
         errMsgs.forEach((msg) => {
-          const msgBox = document.createElement("span");
-          msgBox.classList.add("ErrMsg");
+          let target = document.body;
+          let msgBox = document.createElement("div");
+          msgBox.classList.add("err-msg");
+
           if (msg.includes("name") && msg.includes("password")) {
             msgBox.innerText = " *Incorrect username or password";
-            document.querySelector("#login_button").after(msgBox);
+            target = document.querySelector("#login_button");
+
           } else if (msg.includes("name") && msg.includes("pattern")) {
             msgBox.innerText = " *Username does not allow special characters";
-            document.querySelector("#username").after(msgBox);
+            target = document.querySelector("#username");
+
           } else if (msg.includes("password") && msg.includes("pattern")) {
             msgBox.innerText = " *Password does not allow special characters";
-            document.querySelector("#password").after(msgBox);
+            target = document.querySelector("#password");
+            
           } else {
             msgBox.innerText = " " + msg;
-            document.querySelector("#login_button").after(msgBox);
+            target = document.querySelector("#login_button");
           }
+
+          target.after(msgBox);
+          target.classList.toggle('input--wrong');
         });
       }
     </script>

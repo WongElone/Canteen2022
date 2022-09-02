@@ -49,6 +49,31 @@ p {
     margin-top: 0;
 }
 
+@media screen and (max-width: 400px) {
+    body {
+        font-size: 1.9rem;
+    }
+    
+    h1,
+    h2,
+    h3 {
+        color: var(--color-heading);
+        margin-bottom: 0.5rem;
+    }
+    
+    h1 {
+        font-size: 5.5rem;
+    }
+    
+    h2 {
+        font-size: 3.5rem;
+    }
+    
+    h3 {
+        font-size: 2.5rem;
+    }
+}
+
 /* Links */
 a {
     text-decoration: none;
@@ -99,6 +124,12 @@ a {
     white-space: nowrap;
 }
 
+@media screen and (max-width: 400px) {
+    .btn {
+        font-size: 1.5rem;
+    }
+}
+
 .btn:hover {
     background: #e0e0e0;
     transform: scale(1.05);
@@ -132,7 +163,7 @@ a {
 /* Inputs */
 .input {
     outline: 0;
-    border: 2px solid var(--color-heading);
+    border: 2px solid var(--color-body);
     color: var(--color-heading);
     background-color: rgba(0, 0, 0, 0.1);
 }
@@ -142,8 +173,15 @@ a {
     letter-spacing: 0.5px;
     border-radius: 10px;
     padding: 0.5rem 1rem;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-top: 0.2rem;
+    color: var(--color-heading);
+}
+
+@media screen and (max-width: 350px) {
+    .text-input {
+        font-size: 1.2rem;
+    }
 }
 
 .text-input--phone {
@@ -183,7 +221,7 @@ a {
     display: block;
     position: relative;
     cursor: pointer;
-    --checkbox-size: 2rem;
+    --checkbox-size: 1.8rem;
     height: var(--checkbox-size);
     width: var(--checkbox-size);
 }
@@ -238,7 +276,7 @@ a {
     flex-direction: row;
     align-items: center;
     justify-content: left;
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin: 2rem 0 1rem;
 }
 
@@ -324,6 +362,7 @@ a {
 .list {
     list-style: none;
     margin: 0;
+    padding-left: 1rem;
 }
 
 .list__item {
@@ -337,7 +376,8 @@ a {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    min-height: 8rem;
+    min-height: 7rem;
+    font-size: 2.4rem;
 }
 
 .nav__header {
@@ -345,10 +385,12 @@ a {
 }
 
 .nav__heading {
-    font-size: 4rem;
+    font-size: 3rem;
+    letter-spacing: -1px;
     position: relative;
-    top: 0.8rem;
+    top: 1.8rem;
     color: var(--color-light);
+    line-height: 0;
 }
 
 .nav__content {
@@ -374,7 +416,7 @@ a {
 
 .nav .collapsible__toggler {
     background-color: inherit;
-    margin: 1rem;
+    margin: 0.5rem 1rem;
     cursor: pointer;
 }
 
@@ -412,7 +454,7 @@ a {
 
 .block {
     --padding-vertical: 4rem;
-    padding: var(--padding-vertical) 4rem;
+    padding: var(--padding-vertical) 2rem;
 }
 
 .block--dark {
@@ -474,8 +516,8 @@ a {
 /* Forms */
 .form {
     text-align: left;
-    padding: 3rem;
-    border: 2px solid grey;
+    padding: 2rem;
+    border: 2px solid var(--color-body);
     border-radius: 30px;
     background: rgba(125, 125, 125, 0.1);
     overflow: hidden;
@@ -483,6 +525,12 @@ a {
 
 .form .text-input--block {
     max-width: 400px;
+}
+
+@media screen and (min-width: 768px) {
+    .form {
+        padding: 3rem;
+    }
 }
 
 /* Error Messages */

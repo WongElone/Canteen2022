@@ -17,8 +17,8 @@
       src="https://kit.fontawesome.com/52a93cbf3b.js"
       crossorigin="anonymous"
     ></script>
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
   </head>
   <body>
     <section class="nav collapsible">
@@ -31,31 +31,28 @@
       </span>
       <ul class="list nav__content collapsible__content">
         <li class="list__item nav__item">
-          <form action="/authen/login" method="Get">
-            <button class="btn" type="submit">Login</button>
+          <form action="/orders/new" method="Get">
+            <button class="btn" type="submit">Place New Orders</button>
           </form>
         </li>
         <li class="list__item nav__item">
-          <form action="/users/new" method="Get">
-            <button class="btn" type="submit">Sign Up</button>
+          <form action="/orders/yourOrders" method="Get">
+            <button class="btn" type="submit">Pending Orders</button>
+          </form>
+        </li>
+        <li class="list__item nav__item">
+          <form action="#" method="Get">
+            <button class="btn" type="submit">Settings</button>
+          </form>
+        </li>
+        <li class="list__item nav__item">
+          <form action="/authen/logout" method="Get">
+            <button class="btn" type="submit">Logout</button>
           </form>
         </li>
       </ul>
     </section>
 
-    <section class="block block--dark block--skewed-left hero">
-      <div class="container grid grid--1x2">
-        <div class="hero__header">
-          <h1>Online Ordering</h1>
-          <h3>Place your orders in less than 60 seconds</h3>
-          <form action="/authen/login" method="Get">
-            <button class="btn btn--primary hero__btn" type="submit">Get Started</button>
-          </form>
-        </div>
-        <img class="hero__image" src="../images/many-food.jpg" alt="" />
-      </div>
-    </section>
-
-    <script src="lib/collapsibles.js"></script>
+    <script src="../lib/collapsibles.js"></script>
   </body>
 </html>

@@ -77,11 +77,11 @@ p {
 /* Links */
 a {
     text-decoration: none;
+    display: block;
     /* color: var(--color-light); */
 }
 
 .link-arrow {
-    display: block;
     color: var(--color-primary);
     text-transform: uppercase;
     font-size: 1.5rem;
@@ -378,6 +378,7 @@ a {
     flex-wrap: wrap;
     min-height: 7rem;
     font-size: 2.4rem;
+    align-items: center;
 }
 
 .nav__header {
@@ -387,10 +388,14 @@ a {
 .nav__heading {
     font-size: 3rem;
     letter-spacing: -1px;
-    position: relative;
-    top: 1.8rem;
+    /* position: relative;
+    top: 1.8rem; */
     color: var(--color-light);
     line-height: 0;
+}
+
+.nav__heading:hover {
+    color: #fff;
 }
 
 .nav__content {
@@ -401,17 +406,56 @@ a {
     color: var(--color-light);
     cursor: pointer;
     border-bottom: 1px solid rgb(44, 44, 44);
+    margin: 1rem 1.5rem;
+    transition: transform 0.15s ease-in-out;
+}
+
+.nav__item:last-of-type {
+    margin-right: 2.25rem;
 }
 
 .nav__item:hover {
     color: #fff;
+    transform: scale(1.05);
 }
 
-.nav__item .btn {
+.nav__item a {
     background: inherit;
     color: inherit;
     margin: 0;
     padding: 0;
+    letter-spacing: -0.5px;
+    word-spacing: 0.5px;
+    font-size: 1.75rem;
+}
+
+.nav__item__icon {
+    /* display: none; */
+    display: block;
+    position: absolute;
+    opacity: 0;
+    transition: all 0s;
+}
+
+.nav__item__title {
+    position: relative;
+    opacity: 1;
+    transition: all 1s;
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    .nav__item__icon {
+        display: block;
+        position: relative;
+        opacity: 1;
+        transition: all 1s;
+    }
+
+    .nav__item__title {
+        position: absolute;
+        opacity: 0;
+        transition: all 0s;
+    }
 }
 
 .nav .collapsible__toggler {
@@ -469,13 +513,25 @@ a {
 }
 
 .block--skewed-left {
-    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
-    padding-bottom: calc(var(--padding-vertical) + 8rem);
+    clip-path: polygon(0 0, 100% 0, 100% 95%, 0 100%);
+    padding-bottom: calc(var(--padding-vertical) + 4rem);
 }
 
 .block--skewed-right {
-    padding-bottom: calc(var(--padding-vertical) + 8rem);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 95%);
+    padding-bottom: calc(var(--padding-vertical) + 4rem);
+}
+
+@media screen and (min-width: 768px) {
+    .block--skewed-left {
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+        padding-bottom: calc(var(--padding-vertical) + 8rem);
+    }
+    
+    .block--skewed-right {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 90%);
+        padding-bottom: calc(var(--padding-vertical) + 8rem);
+    }
 }
 
 /* Heros */

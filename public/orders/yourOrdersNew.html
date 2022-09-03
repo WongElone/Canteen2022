@@ -23,36 +23,59 @@
   <body>
     <section class="nav collapsible">
       <header class="nav__header">
-        <a class="nav__heading" href="/">Best Canteen</a>
+        <a class="nav__heading" href="/orders/yourOrders" title="Refresh Page">Best Canteen</a>
       </header>
-      <span class="icon-container collapsible__toggler">
+      <span class="icon-container collapsible__toggler" title="Expand">
         <i class="icon collapsible__bar fa-solid fa-bars"></i>
         <i class="icon collapsible__chevron fa-solid fa-chevron-right"></i>
       </span>
       <ul class="list nav__content collapsible__content">
-        <li class="list__item nav__item">
-          <form action="/orders/new" method="Get">
-            <button class="btn" type="submit">Place New Orders</button>
-          </form>
+        <li class="list__item nav__item" title='Place New Order'>
+          <!-- <form action="/orders/new" method="Get">
+            <button class="btn" type="submit">Place New Order</button>
+          </form> -->
+          <a href="/orders/new">
+            <div class="nav__item__title">
+              Place New Order
+            </div>
+            <i class="icon nav__item__icon fa-solid fa-list"></i>
+          </a>
         </li>
-        <li class="list__item nav__item">
-          <form action="/orders/yourOrders" method="Get">
+        <li class="list__item nav__item" title='Pending Orders'>
+          <!-- <form action="/orders/yourOrders" method="Get">
             <button class="btn" type="submit">Pending Orders</button>
-          </form>
+          </form> -->
+          <a href="/orders/yourOrders">
+            <div class="nav__item__title">
+              Pending Orders
+            </div>
+            <i class="icon nav__item__icon fa-solid fa-hourglass-start"></i>  
+          </a>
         </li>
-        <li class="list__item nav__item">
-          <form action="#" method="Get">
+        <li class="list__item nav__item" title='Settings'>
+          <!-- <form action="#" method="Get">
             <button class="btn" type="submit">Settings</button>
-          </form>
+          </form> -->
+          <a href="#">
+            <div class="nav__item__title">
+              Settings
+            </div>
+            <i class="icon nav__item__icon fa-solid fa-gears"></i>  
+          </a>
         </li>
-        <li class="list__item nav__item">
-          <form action="/authen/logout" method="Get">
+        <li class="list__item nav__item" title='Logout'>
+          <!-- <form action="/authen/logout" method="Get">
             <button class="btn" type="submit">Logout</button>
-          </form>
+          </form> -->
+          <a href="/authen/logout">
+            <div class="nav__item__title">
+              Logout
+            </div>
+            <i class="icon nav__item__icon fa-solid fa-arrow-right-from-bracket"></i>  
+          </a>
         </li>
       </ul>
     </section>
-
     <script src="../lib/collapsibles.js"></script>
   </body>
 </html>

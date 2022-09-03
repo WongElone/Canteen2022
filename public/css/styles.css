@@ -2,9 +2,10 @@
     --color-primary: #437a79;
     --color-secondary: #7D9D9C;
     --color-light: #E4DCCF;
-    --color-lighter: #F0EBE3;
+    --color-lighter: #f5f2ee;
     --color-heading: #2c3435;
     --color-body: #667677;
+    --color-accent: #5f4f33;
 }
 
 *,
@@ -359,7 +360,7 @@ a {
 }
 
 /* Lists */
-.list {
+ul {
     list-style: none;
     margin: 0;
     padding-left: 1rem;
@@ -593,4 +594,83 @@ a {
 .err-msg {
     font-size: 1.25rem;
     color: red;
+}
+
+/* Tables */
+table {
+    border-collapse: collapse;
+}
+
+td,
+th {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid black;
+}
+
+td {
+    line-height: 1.2;
+    vertical-align: top;
+}
+
+/* Cards */
+.card {
+    max-width: 500px;
+    padding: 1rem;
+}
+
+.card__header {
+    background-color: var(--color-primary);
+    color: #fff;
+    font-size: 1.8rem;
+    padding: 1.5rem;
+    border-radius: 5px 5px 0 0;
+    letter-spacing: -0.3px;
+}
+
+.card__heading {
+    font-size: 2.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.card__body {
+    background-color: var(--color-lighter);
+    color: var(--color-accent);
+    font-size: 1.4rem;
+    padding: 1.5rem;
+    border-radius: 0 0 5px 5px;
+}
+
+.card__keypoint {
+    font-size: 1.6rem;
+    font-weight: 600;
+}
+
+.card__table,
+.card__list {
+    padding: 1rem 0;
+}
+
+.card__table {
+    border-collapse: separate;
+    border-spacing: 15px 0;
+}
+
+.card__table thead th {
+    border-width: 0 0 1px 0;
+    border-color: #cab99b;
+    line-height: 0.8;
+    font-weight: 600;
+}
+
+.card__table td {
+    border: 0;
+}
+
+.card__table thead th,
+.card__table td {
+    min-width: 5rem;
+    max-width: 15rem;
+    word-wrap: break-word;
+    hyphens: auto;
 }

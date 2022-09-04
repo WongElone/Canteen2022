@@ -286,7 +286,7 @@ a {
 .grid {
     display: grid;
     align-items: center;
-    justify-items: center;
+    justify-items: left;
 }
 
 @media screen and (min-width: 768px) {
@@ -604,10 +604,6 @@ ul {
 }
 
 /* Tables */
-table {
-    border-collapse: collapse;
-}
-
 td,
 th {
     padding: 0.5rem 0.75rem;
@@ -665,7 +661,8 @@ td {
     max-width: 400px;
 }
 
-.card__table thead th {
+.card__table thead th,
+.card__table tfoot th {
     border-width: 0 0 1px 0;
     border-color: #cab99b;
     line-height: 1;
@@ -683,6 +680,16 @@ td {
     max-width: 15rem;
     word-wrap: break-word;
     hyphens: auto;
+}
+
+.card__table tfoot th {
+    border-width: 1px 0 0 0;
+    vertical-align: bottom;
+    /* text-align: center; */
+}
+
+.prices {
+    text-align: right;
 }
 
 @media screen and (min-width: 1024px) {

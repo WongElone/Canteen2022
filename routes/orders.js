@@ -34,25 +34,26 @@ router.post('/', [autho, notStaff], asyncMiddleware(async (req, res) => {
     if (!customer) return res.status(404).send('User not registered');
 
 
-    order.dishesXqtys = [];
+    order.dishes = [];
 
     for (let dishName in (order.dishnamesXqtys || {})) {
         const dish = await Dish.findOne({ name: dishName });
         
         if (dish) {
-            order.dishesXqtys.push({
+            order.dishes.push({
                 dishName: dishName,
-                qty: order.dishnamesXqtys[dishName]
+                qty: order.dishnamesXqtys[dishName],
+                price: dish.price * order.dishnamesXqtys[dishName]
             });
         }
         else break;
     }
 
-    if (!order.dishesXqtys.length || order.dishesXqtys.length != Object.keys(order.dishnamesXqtys).length) {
+    if (!order.dishes.length || order.dishes.length != Object.keys(order.dishnamesXqtys).length) {
         return res.status(404).send('Some dishes not found, please try agin');
     }
 
-    order = new Order(_.pick(order, ['customerId', 'dishesXqtys', 'appointTime', 'appointDate']));
+    order = new Order(_.pick(order, ['customerId', 'dishes', 'appointTime', 'appointDate']));
 
     await order.save();
 
@@ -68,7 +69,7 @@ router.get('/yourOrders', [autho, notStaff], asyncMiddleware(async (req, res) =>
 router.get('/customerOrders', [autho, notStaff], asyncMiddleware(async (req, res) => {
     const orders = await Order.find({ customerId: req.userPayload._id, appointDate: myTime.todayHKDate(), isCompleted: false }).sort('appointTime');;
 
-    res.send(_.map(orders, (order) => _.pick(order, ['dishesXqtys', 'appointTime'])));
+    res.send(_.map(orders, (order) => _.pick(order, ['dishes', 'appointTime'])));
 }));
 
 
@@ -89,7 +90,7 @@ router.get('/today', [autho, isStaff], asyncMiddleware(async (req, res) => {
         order.phone = customer.phone;
     }
 
-    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishesXqtys', 'appointTime'])));
+    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishes', 'appointTime'])));
 }));
 
 
@@ -126,7 +127,7 @@ router.get('/areCompleted', [autho, isStaff], asyncMiddleware(async (req, res) =
         order.phone = customer.phone;
     }
 
-    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishesXqtys', 'appointTime'])));
+    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishes', 'appointTime'])));
 }));
 
 
@@ -149,7 +150,7 @@ router.get('/abandoned', [autho, isStaff], asyncMiddleware(async (req, res) => {
         order.phone = customer.phone;
     }
 
-    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishesXqtys', 'appointTime'])));
+    res.send(_.map(orders, (order) => _.pick(order, ['_id', 'username', 'phone', 'dishes', 'appointTime'])));
 }));
 
 

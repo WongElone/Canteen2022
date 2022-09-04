@@ -4,42 +4,148 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Orders</title>
-    <link rel="stylesheet" href="../styles/common.css" />
-    <link rel="stylesheet" href="../styles/orders.css">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/52a93cbf3b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
   </head>
   <body>
+    <section class="nav collapsible">
+      <header class="nav__header">
+        <a class="nav__heading" href="/orders/yourOrders" title="Refresh Page"
+          >Best Canteen</a
+        >
+      </header>
+      <span class="icon-container collapsible__toggler" title="Expand">
+        <i class="icon collapsible__bar fa-solid fa-bars"></i>
+        <i class="icon collapsible__chevron fa-solid fa-chevron-right"></i>
+      </span>
+      <ul class="list nav__content collapsible__content">
+        <li class="list__item nav__item" title="Place New Order">
+          <a href="/orders/new">
+            <div class="nav__item__title">Place New Order</div>
+            <i class="icon nav__item__icon fa-solid fa-list"></i>
+          </a>
+        </li>
+
+        <li class="list__item nav__item" title="Pending Orders">
+          <a href="/orders/yourOrders">
+            <div class="nav__item__title">Pending Orders</div>
+            <i class="icon nav__item__icon fa-solid fa-hourglass-start"></i>
+          </a>
+        </li>
+
+        <li class="list__item nav__item" title="Settings">
+          <a href="#">
+            <div class="nav__item__title">Settings</div>
+            <i class="icon nav__item__icon fa-solid fa-gears"></i>
+          </a>
+        </li>
+
+        <li class="list__item nav__item" title="Logout">
+          <a href="/authen/logout">
+            <div class="nav__item__title">Logout</div>
+            <i class="icon nav__item__icon fa-solid fa-arrow-right-from-bracket"></i>
+          </a>
+        </li>
+      </ul>
+    </section>
+
     <h1>Your Pending Orders</h1>
-    <div id="space1"></div>
-    <form action="/users/welcome" method="GET">
-      <button type="submit" class="outmost_button">Home</button>
-    </form>
+    <div data-message-no-orders></div>
+    
+    <section class="grid grid--spread" data-orders-grid>
+      <!-- <article class="card">
+        <header class="card__header">
+          <div class="card__heading">Appointed Time: 19:00</div>
+          <div class="card__subheading">
+          </div>
+        </header>
+        <div class="card__body">
+          <table class="card__table">
+            <thead>
+              <tr>
+                <th>Dishes</th>
+                <th>Qty</th>
+                <th>Prices (HKD)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Oven-Grilled Truffles & Pheasant</td>
+                <td>x2</td>
+                <td class="prices">$300</td>
+              </tr>
+              <tr>
+                <td>Roasted Duck with Peaches and Balsamic Vinegar</td>
+                <td>x3</td>
+                <td class="prices">$300</td>
+              </tr>
+              <tr>
+                <td>Pear and Cardamom Tarte Tatin</td>
+                <td>x1</td>
+                <td class="prices">$300</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="2">Total</th>
+                <th class="prices">$900</th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </article> -->
+    </section>
 
-    <script src="../lib/myDOM.js"></script>
-    <script type="text/javascript">
-        const orders = fetch("/orders/customerOrders")
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            document.write(`Error ${res.status}`);
-            throw new Error(`Error ${res.status}`);
-          }
-        })
-        .then((d) => {
-          return d;
-        })
-        .catch((err) => console.error(err));
+    <template id="order-template">
+      <article class="card">
+        <header class="card__header">
+          <div class="card__heading" data-appoint-time></div>
+          <div class="card__subheading">
+          </div>
+        </header>
 
-      orders.then((orders) => {
-        if (orders.length === 0) {
-          const h3 = document.createElement('h3');
-          h3.innerText = 'You have no pending orders.';
-          return document.querySelector('#space1').appendChild(h3);
-        }
+        <div class="card__body">
+          <table class="card__table">
+            <thead>
+              <tr>
+                <th>Dishes</th>
+                <th>Qty</th>
+                <th>Prices (HKD)</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th colspan="2">Total</th>
+                <th class="prices" data-total-price></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </article>
+    </template>
 
-        MyOrder.renderOrders('#space1', orders);
-      });
-    </script>
+    <template id="dish-template">
+      <tr>
+        <td data-dish-name></td>
+        <td data-dish-qty></td>
+        <td class="prices" data-dish-price></td>
+      </tr>
+    </template>
+    
+  <script src="../lib/collapsibles.js"></script>
+  <script src="../lib/pendingOrders.js"></script>
   </body>
 </html>

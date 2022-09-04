@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema({
         required: true
     },
 
-    dishesXqtys: {
+    dishes: {
         type: [new mongoose.Schema({
             dishName: {
                 type: String,
@@ -17,6 +17,10 @@ const orderSchema = new mongoose.Schema({
                 required: true
             },
             qty: {
+                type: Number,
+                required: true
+            },
+            price: {
                 type: Number,
                 required: true
             }

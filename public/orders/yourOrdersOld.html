@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Your Orders</title>
+    <link rel="stylesheet" href="../styles/common.css" />
+    <link rel="stylesheet" href="../styles/orders.css">
+  </head>
+  <body>
+    <h1>Your Pending Orders</h1>
+    <div id="space1"></div>
+    <form action="/users/welcome" method="GET">
+      <button type="submit" class="outmost_button">Home</button>
+    </form>
+
+    <script src="../lib/myDOM.js"></script>
+    <script type="text/javascript">
+        const orders = fetch("/orders/customerOrders")
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            document.write(`Error ${res.status}`);
+            throw new Error(`Error ${res.status}`);
+          }
+        })
+        .then((d) => {
+          return d;
+        })
+        .catch((err) => console.error(err));
+
+      orders.then((orders) => {
+        if (orders.length === 0) {
+          const h3 = document.createElement('h3');
+          h3.innerText = 'You have no pending orders.';
+          return document.querySelector('#space1').appendChild(h3);
+        }
+
+        MyOrder.renderOrders('#space1', orders);
+      });
+    </script>
+  </body>
+</html>

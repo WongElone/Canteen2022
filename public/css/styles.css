@@ -499,6 +499,25 @@ ul {
     margin: 0 auto;
 }
 
+.container__header {
+    margin-bottom: 3rem;
+    line-height: 1;
+    padding: 1.5rem 1rem;
+}
+
+.container__header--left {
+    text-align: left;
+}
+
+.container__header--white {
+    background-color: #fff;
+    box-shadow: 0 0 6px 3px rgba(0, 0, 0, 0.2);
+}
+
+.container__body {
+    padding: 0 2rem;
+}
+
 /* Blocks */
 .block {
     text-align: center;

@@ -4,171 +4,201 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Make an order</title>
-    <link rel="stylesheet" href="../styles/common.css" />
-    <link rel="stylesheet" href="../styles/menus.css" />
+    <title>Place Your Orders!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=Noto+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/52a93cbf3b.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../css/normalize.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
   </head>
-  <body>
-    <h1>Make an order</h1>
-    <div id="space1"></div>
+  <body class="bg">
+    <section class="nav collapsible">
+      <header class="nav__header">
+        <a class="nav__heading" href="/orders/yourOrders" title="Refresh Page"
+          >Best Canteen</a
+        >
+      </header>
+      <span class="icon-container collapsible__toggler" title="Expand">
+        <i class="icon collapsible__bar fa-solid fa-bars"></i>
+        <i class="icon collapsible__chevron fa-solid fa-chevron-right"></i>
+      </span>
+      <ul class="list nav__content collapsible__content">
+        <li class="list__item nav__item" title="Place New Order">
+          <a href="/orders/new">
+            <div class="nav__item__title">Place New Order</div>
+            <i class="icon nav__item__icon fa-solid fa-list"></i>
+          </a>
+        </li>
 
-    <form action="/orders" method="POST">
-      <input type="hidden" id="input_order" name="dishnamesXqtys" required />
-      <label for="appoint_time">Appointed Time</label>
-      <input class="outmost_button" type="time" id="appoint_time" name="appointTime" max="21:00" required>
-      <button
-        class="outmost_button"
-        id="submit_button"
-        type="Submit"
-        disabled
-      >
-        Submit Order
-      </button>
-    </form>
+        <li class="list__item nav__item" title="Pending Orders">
+          <a href="/orders/yourOrders">
+            <div class="nav__item__title">Pending Orders</div>
+            <i class="icon nav__item__icon fa-solid fa-hourglass-start"></i>
+          </a>
+        </li>
 
-    <form action="/users/welcome" method="GET">
-      <button class="outmost_button" type="Submit">Home</button>
-    </form>
+        <li class="list__item nav__item" title="Settings">
+          <a href="#">
+            <div class="nav__item__title">Settings</div>
+            <i class="icon nav__item__icon fa-solid fa-gears"></i>
+          </a>
+        </li>
 
-    <script src="../lib/myDOM.js"></script>
-    <script type="text/javascript">
-      // initialize time button
-      initTimeButton(document.querySelector('#appoint_time'));
-      
-      function initTimeButton(appointTime) {
-        const currHKTime = new Date()
-            .toLocaleString('en-UK', { timeZone: 'Asia/Singapore' })
-            .slice(12, 17);
-        const hour = parseInt(currHKTime.slice(0, 2));
+        <li class="list__item nav__item" title="Logout">
+          <a href="/authen/logout">
+            <div class="nav__item__title">Logout</div>
+            <i
+              class="icon nav__item__icon fa-solid fa-arrow-right-from-bracket"
+            ></i>
+          </a>
+        </li>
+      </ul>
+    </section>
 
-        if (hour >= 21) {
-          appointTime.disabled = true;
-        }
-        else if (hour < 9) {
-          appointTime.setAttribute('min', '10:00');
-          appointTime.setAttribute('value', '10:00');
-        }
-        else {
-          const anHourLater = (hour + 1).toString() + currHKTime.slice(2, 5);
-          appointTime.setAttribute('min', anHourLater);
-          appointTime.setAttribute('value', anHourLater);
-        }
-      }
-      
-      // fetch menus from server
-      const menus = fetch("/menus/today")
-        .then((res) => {
-          if (res.ok) {
-            return res.json();
-          } else {
-            document.write(`Error ${res.status}`);
-            throw new Error(`Error ${res.status}`);
-          }
-        })
-        .then((d) => d)
-        .catch((err) => console.error(err));
+    <section class="block">
+      <h1 data-title-msg>Place Your Orders!</h1>
+      <div class="container">
+        <form class="form" action="#" method="POST">
+          <div class="grid grid--spread grid--spread--in-form" data-menus-grid>
+            <article class="card">
+              <header class="card__header">
+                <div class="card__heading">Menu Name</div>
+                <div class="card__subheading">Effective Date</div>
+              </header>
 
-      menus.then((menus) => {
-        if (menus.length === 0) {
-          const h3 = document.createElement('h3');
-          h3.innerText = 'Our Menus for today have not been posted yet, please visit again later!';
-          return document.querySelector('#space1').appendChild(h3);
-        }
+              <div class="card__body">
+                <table class="card__table">
+                  <thead>
+                    <tr>
+                      <th>Dishes</th>
+                      <th>Prices (HKD)</th>
+                      <th>Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>asdf</td>
+                      <td class="price">$123</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
 
-        // display today menus, using MyMenu in the lib, and get the menus containers
-        const menusContainers = MyMenu.todayMenus("#space1", menus);
+            <article class="card">
+              <header class="card__header">
+                <div class="card__heading">Menu Name 2</div>
+                <div class="card__subheading">Effective Date</div>
+              </header>
 
-        menusContainers.forEach((container) => {
-          // Add Qty header for Qty column
-          const qtyHeader = document.createElement("th");
-          qtyHeader.innerText = "Quantity";
-          container.querySelector(".DishPriceHeader").after(qtyHeader);
+              <div class="card__body">
+                <table class="card__table">
+                  <thead>
+                    <tr>
+                      <th>Dishes</th>
+                      <th>Prices (HKD)</th>
+                      <th>Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>asdf</td>
+                      <td class="price">$123</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
 
-          // Add elements in Qty column
-          const prices = Array.from(
-            container.querySelectorAll(".DishPriceData")
-          );
-          prices.forEach((price) => {
-            const newData = document.createElement("td");
-            const qtyBox = document.createElement("span");
-            newData.appendChild(qtyBox);
-            price.after(newData);
+            <article class="card">
+              <header class="card__header">
+                <div class="card__heading">Menu Name 3</div>
+                <div class="card__subheading">Effective Date</div>
+              </header>
 
-            const dish = qtyBox.closest(".dish");
-            dish.classList.add("ZeroQty");
+              <div class="card__body">
+                <table class="card__table">
+                  <thead>
+                    <tr>
+                      <th>Dishes</th>
+                      <th>Prices (HKD)</th>
+                      <th>Qty</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>asdasdfasdfasdfasdfsadfsadfsadff</td>
+                      <td class="price">$123</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </article>
+          </div>
 
-            const input = document.createElement("input");
-            qtyBox.appendChild(input);
-            input.classList.add('InputQty');
-            input.disabled = true;
-            input.setAttribute("type", "text");
-            input.setAttribute("size", "1");
-            input.setAttribute("value", "0");
+          <div>Total Prices: $1234</div>
+          <div>
+            <label for="appoint-time">Appointed Time</label>
+            <input
+              type="time"
+              id="appoint-time"
+              name="appointTime"
+              max="21:00"
+              required
+            />
+          </div>
+          <button class="btn btn--primary" type="submit">Submit Order</button>
+        </form>
+      </div>
+    </section>
 
-            // create up and down buttons
-            const upButton = document.createElement("button");
-            input.after(upButton);
-            upButton.innerText = "▲";
+    <template id="menu--order-template">
+      <article class="card">
+        <header class="card__header">
+          <div class="card__heading" data-menu-name></div>
+        </header>
 
-            const downButton = document.createElement("button");
-            upButton.after(downButton);
-            downButton.innerText = "▼";
-            downButton.disabled = true;
+        <div class="card__body">
+          <table class="card__table">
+            <thead>
+              <tr>
+                <th>Dishes</th>
+                <th>Prices (HKD)</th>
+                <th>Qty</th>
+              </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </template>
 
-            // up and down buttons onclick actions
-            upButton.onclick = function () {
-              const num = parseInt(input.value);
-              input.value = (num + 1).toString();
-              upButton.disabled = input.value === "9";
-
-              if (input.value != "0") {
-                dish.classList.replace("ZeroQty", "PositiveQty");
-                downButton.disabled = false;
-              }
-
-              submitButtonUpdate();
-            };
-
-            downButton.onclick = function () {
-                const num = parseInt(input.value);
-                input.value = (num - 1).toString();
-                downButton.disabled = input.value === "0";
-
-              if (input.value === "0") {
-                dish.classList.replace("PositiveQty", "ZeroQty");
-              }
-              
-              if (input.value != "9") {
-                upButton.disabled = false;
-              }
-
-              submitButtonUpdate();
-            };
-          });
-        });
-
-
-        document.querySelector('#submit_button').onclick = function() {
-            const orderedDishes = Array.from(document.querySelectorAll('.PositiveQty'));
-
-            const dishnamesXqtys = orderedDishes.reduce((acc, curr) => {
-                    const dishName = curr.querySelector('.dish_name').innerText;
-                    const qty = parseInt(curr.querySelector('.InputQty').value);
-                    acc[dishName] = (acc[dishName])? acc[dishName] + qty : qty;
-                    return acc;
-            }, {});
-
-            document.querySelector('#input_order').value = JSON.stringify(dishnamesXqtys);
-        }
-
-        function submitButtonUpdate() {
-          const submitButton = document.querySelector("#submit_button");
-
-          const atLeastOneDish = document.querySelector(".PositiveQty");
-
-          submitButton.disabled = !atLeastOneDish;
-        }
-      });
-    </script>
+    <template id="dish-template">
+      <tr>
+        <td data-dish-name></td>
+        <td class="price" data-dish-price></td>
+        <td data-dish-qty>
+          <button class="card__btn card__btn--updown">
+            ▲
+          </button>
+          <button class="card__btn card__btn--updown">
+            ▼
+          </button>
+        </td>
+      </tr>
+    </template>
+    <script src="../lib/collapsibles.js"></script>
+    <script src="../lib/newOrder.js"></script>
   </body>
 </html>

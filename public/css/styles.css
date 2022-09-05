@@ -583,7 +583,7 @@ ul {
     padding: 2rem;
     border: 2px solid var(--color-body);
     border-radius: 30px;
-    background: rgba(125, 125, 125, 0.1);
+    background: rgb(231, 224, 231);
     overflow: hidden;
 }
 
@@ -619,6 +619,9 @@ td {
 .card {
     max-width: 450px;
     margin: 1rem;
+    overflow-wrap: break-word;
+    /* word-break: break-all; */
+    hyphens: auto;
 }
 
 .card__header {
@@ -688,9 +691,7 @@ td {
     /* text-align: center; */
 }
 
-.prices {
-    text-align: right;
-}
+
 
 @media screen and (min-width: 1024px) {
     .card {
@@ -708,4 +709,73 @@ td {
     .card__table {
         max-width: 250px;
     }
+}
+
+/* Prices in tables */
+.price {
+    text-align: right;
+}
+
+/* Items */
+.food {
+    overflow: auto;
+    font-size: 1.6rem;
+    height: 8rem;
+    box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    padding: .5rem;
+    line-height: 1;
+    display: grid;
+    grid: "name   qty" 1fr
+          "price  qty" 1.8rem
+          /1fr 5rem;
+    row-gap: 3px;
+    letter-spacing: -0.5px;
+}
+
+.food__name {
+    grid-area: name;
+    color: var(--color-heading);
+}
+
+.food__price {
+    grid-area: price;
+}
+
+.food__qty {
+    grid-area: qty;
+    display: flex;
+    flex-direction: column;
+    justify-self: right;
+    justify-content: space-evenly;
+    margin-right: 5px;
+}
+
+.food__btn {
+    cursor: pointer;
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.food__btn--updown {
+    padding: 0;
+    border-radius: 50%;
+    border: 0;
+    font-weight: 700;
+    line-height: 0;
+    font-size: 1.5rem;
+    width: 2rem;
+    height: 2rem;
+    /* vertical-align: center; */
+    text-align: center;
+}
+
+.food__btn:hover {
+    background-color: var(--color-secondary);
+}
+
+.food__qty-string {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 2rem;
 }

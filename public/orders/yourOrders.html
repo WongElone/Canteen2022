@@ -63,49 +63,7 @@
     <h1>Your Pending Orders</h1>
     <div data-message-no-orders></div>
     
-    <section class="grid grid--spread" data-orders-grid>
-      <!-- <article class="card">
-        <header class="card__header">
-          <div class="card__heading">Appointed Time: 19:00</div>
-          <div class="card__subheading">
-          </div>
-        </header>
-        <div class="card__body">
-          <table class="card__table">
-            <thead>
-              <tr>
-                <th>Dishes</th>
-                <th>Qty</th>
-                <th>Prices (HKD)</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Oven-Grilled Truffles & Pheasant</td>
-                <td>x2</td>
-                <td class="prices">$300</td>
-              </tr>
-              <tr>
-                <td>Roasted Duck with Peaches and Balsamic Vinegar</td>
-                <td>x3</td>
-                <td class="prices">$300</td>
-              </tr>
-              <tr>
-                <td>Pear and Cardamom Tarte Tatin</td>
-                <td>x1</td>
-                <td class="prices">$300</td>
-              </tr>
-            </tbody>
-            <tfoot>
-              <tr>
-                <th colspan="2">Total</th>
-                <th class="prices">$900</th>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-      </article> -->
-    </section>
+    <section class="grid grid--spread" data-orders-grid></section>
 
     <template id="order-template">
       <article class="card">
@@ -124,12 +82,11 @@
                 <th>Prices (HKD)</th>
               </tr>
             </thead>
-            <tbody>
-            </tbody>
+            <tbody></tbody>
             <tfoot>
               <tr>
                 <th colspan="2">Total</th>
-                <th class="prices" data-total-price></th>
+                <th class="price" data-total-price></th>
               </tr>
             </tfoot>
           </table>
@@ -141,7 +98,7 @@
       <tr>
         <td data-dish-name></td>
         <td data-dish-qty></td>
-        <td class="prices" data-dish-price></td>
+        <td class="price" data-dish-price></td>
       </tr>
     </template>
     

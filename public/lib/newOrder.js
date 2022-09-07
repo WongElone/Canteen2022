@@ -82,6 +82,28 @@ sectionMenus.addEventListener("click", function (e) {
   renderFoods(menu, menuContainer);
 });
 
+sectionForm.addEventListener("submit", (e) => {
+  if (!validateAppointTime()) return e.preventDefault();
+
+  const dishnamesXqtys = Array.from(
+    document.querySelectorAll("[data-food]")
+  ).reduce((acc, food) => {
+    const name = food.querySelector("[data-food-name]").innerText;
+    const qty = parseInt(food.querySelector("[data-food-qty-str]").innerText);
+    if (qty > 0) acc[name] = acc[name] ? acc[name] + qty : qty;
+    return acc;
+  }, {});
+
+  if (Object.keys(dishnamesXqtys).length === 0) {
+    submitValidateMsg.innerText = "You current have no food selected."
+    return e.preventDefault();
+  }
+
+  document.querySelector("#input-order").value = JSON.stringify(dishnamesXqtys);
+
+  localStorage.removeItem(LOCAL_STORAGE_NEWORDER_KEY);
+});
+
 function validateAppointTime() {
   const currHKTime = new Date()
     .toLocaleString("en-UK", { timeZone: "Asia/Singapore" })
@@ -134,26 +156,6 @@ function resetAppointTime() {
     appointTimeElement.value = anHourLater;
   }
 }
-
-sectionForm.addEventListener("submit", (e) => {
-  if (!validateAppointTime()) return e.preventDefault();
-
-  const dishnamesXqtys = Array.from(
-    document.querySelectorAll("[data-food]")
-  ).reduce((acc, food) => {
-    const name = food.querySelector("[data-food-name]").innerText;
-    const qty = parseInt(food.querySelector("[data-food-qty-str]").innerText);
-    if (qty > 0) acc[name] = acc[name] ? acc[name] + qty : qty;
-    return acc;
-  }, {});
-
-  if (Object.keys(dishnamesXqtys).length === 0) {
-    submitValidateMsg.innerText = "You current have no food selected."
-    return e.preventDefault();
-  }
-
-  document.querySelector("#input-order").value = JSON.stringify(dishnamesXqtys);
-});
 
 function renderMenus() {
   clearChildren(sectionMenus);

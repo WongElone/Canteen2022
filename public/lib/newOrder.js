@@ -104,9 +104,13 @@ function validateAppointTime() {
     ) {
       appointTimeValidateMsg.innerText = 'Appointed time must be at least one hour ahead of current time.';
       resetAppointTime();
-      return false; 
+      return false;
     } else if (appointHour < 10) {
       appointTimeValidateMsg.innerText = 'Appointed time cannot be earlier than 10:00 AM';
+      return false;
+    } else if (appointHour >= 22) {
+      appointTimeValidateMsg.innerText = 'Appointed time cannot be after 9:59 PM';
+      return false;
     }
   }
   return true;
@@ -120,6 +124,7 @@ function resetAppointTime() {
 
   if (hour >= 21) {
     appointTimeElement.disabled = true;
+    appointTimeValidateMsg.innerText = "Sorry, service hour is over.";
   } else if (hour < 9) {
     // appointTimeElement.setAttribute("min", "10:00");
     appointTimeElement.value = "10:00";

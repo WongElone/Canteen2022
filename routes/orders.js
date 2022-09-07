@@ -49,7 +49,7 @@ router.post('/', [autho, notStaff], asyncMiddleware(async (req, res) => {
         else break;
     }
 
-    if (!order.dishes.length || order.dishes.length != Object.keys(order.dishnamesXqtys).length) {
+    if (order.dishes == undefined || order.dishes.length != Object.keys(order.dishnamesXqtys).length) {
         return res.status(404).send('Some dishes not found, please try agin');
     }
 
@@ -57,7 +57,8 @@ router.post('/', [autho, notStaff], asyncMiddleware(async (req, res) => {
 
     await order.save();
 
-    res.sendFile(path.join(__dirname, '../public/orders/newSuccess.html'));
+    // res.sendFile(path.join(__dirname, '../public/orders/newSuccess.html'));
+    res.redirect('/orders/yourOrders');
 }));
 
 

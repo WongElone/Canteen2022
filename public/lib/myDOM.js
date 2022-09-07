@@ -85,13 +85,13 @@ const MyOrder = {
       headerQty.innerText = 'Quantity';
       headers.append(headerDish, headerQty);
 
-      const rows = order.dishesXqtys.reduce((acc, dishXqty) => {
+      const rows = order.dishes.reduce((acc, dish) => {
         const row = document.createElement('tr');
         const dishName = document.createElement('td');
         const qty = document.createElement('td');
 
-        dishName.innerText = dishXqty.dishName;
-        qty.innerText = dishXqty.qty;
+        dishName.innerText = dish.dishName;
+        qty.innerText = dish.qty;
 
         row.append(dishName, qty);
 

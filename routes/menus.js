@@ -92,7 +92,7 @@ router.get('/today', [autho], asyncMiddleware(async (req, res) => {
 
     //////////////// !!! refactor later !!! ////////////////
 
-    const ms = _.map(todayMenus, (menu) => _.pick(menu, ['name', 'date']));
+    const ms = _.map(todayMenus, (menu) => _.pick(menu, ['_id', 'name', 'date']));
 
     for (let i in todayMenus) {
         const dishes = await Dish.find({ _id: { $in: todayMenus[i].dishes } });

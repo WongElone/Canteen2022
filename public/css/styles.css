@@ -36,10 +36,12 @@ h3 {
 
 h1 {
     font-size: 6rem;
+    margin-top: 1rem;
 }
 
 h2 {
     font-size: 4rem;
+    color: var(--color-primary);
 }
 
 h3 {
@@ -179,6 +181,22 @@ a {
     color: var(--color-heading);
 }
 
+.input-time {
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+    color: inherit;
+}
+
+.input-time-container {
+    border: 2px solid black;
+    border-radius: 10px;
+    font-size: 2rem;
+    padding: 0.5rem 1.5rem;
+    display: inline-block;
+    color: var(--color-primary);
+}
+
 @media screen and (max-width: 350px) {
     .text-input {
         font-size: 1.2rem;
@@ -287,6 +305,11 @@ a {
     display: grid;
     align-items: center;
     justify-items: left;
+}
+
+.grid--foods {
+    gap: 20px;
+    justify-items: stretch;
 }
 
 @media screen and (min-width: 768px) {
@@ -533,6 +556,15 @@ ul {
     color: var(--color-light);
 }
 
+.block--title {
+    padding-bottom: 0;
+    line-height: 1;
+}
+
+.block--align-left {
+    text-align: left;
+}
+
 .block--dark h1,
 .block--dark h2,
 .block--dark h3 {
@@ -776,7 +808,9 @@ td {
     color: white;
 }
 
-.food__btn--updown {
+.food__btn--updown,
+.food__btn--add,
+.food__btn--minus {
     padding: 0;
     border-radius: 50%;
     border: 0;
@@ -791,6 +825,10 @@ td {
 
 .food__btn:hover {
     background-color: var(--color-secondary);
+}
+
+.food__btn:disabled {
+    opacity: 0.5;
 }
 
 .food__qty-string {

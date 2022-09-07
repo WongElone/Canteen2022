@@ -31,7 +31,9 @@ router.post('/', asyncMiddleware(async (req, res) => {
     const token = user.generateAuthenToken();
     res.cookie('x_authen_token', token, { httpOnly: true });
 
-    res.redirect('/users/welcome');
+    if (user.isStaff) return res.redirect('/controls');
+    
+    res.redirect('/orders/yourOrders');
 }));
 
 router.get('/login', asyncMiddleware((req, res) => {

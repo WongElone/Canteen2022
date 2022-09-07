@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="../css/normalize.css" />
     <link rel="stylesheet" href="../css/styles.css" />
   </head>
-  <body class="bg">
+  <body>
     <section class="nav collapsible">
       <header class="nav__header">
         <a class="nav__heading" href="/orders/yourOrders" title="Refresh Page"
@@ -61,143 +61,52 @@
         </li>
       </ul>
     </section>
-
-    <section class="block">
-      <h1 data-title-msg>Place Your Orders!</h1>
-      <div class="container">
-        <form class="form" action="#" method="POST">
-          <div class="grid grid--spread grid--spread--in-form" data-menus-grid>
-            <article class="card">
-              <header class="card__header">
-                <div class="card__heading">Menu Name</div>
-                <div class="card__subheading">Effective Date</div>
-              </header>
-
-              <div class="card__body">
-                <table class="card__table">
-                  <thead>
-                    <tr>
-                      <th>Dishes</th>
-                      <th>Prices (HKD)</th>
-                      <th>Qty</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>asdf</td>
-                      <td class="price">$123</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </article>
-
-            <article class="card">
-              <header class="card__header">
-                <div class="card__heading">Menu Name 2</div>
-                <div class="card__subheading">Effective Date</div>
-              </header>
-
-              <div class="card__body">
-                <table class="card__table">
-                  <thead>
-                    <tr>
-                      <th>Dishes</th>
-                      <th>Prices (HKD)</th>
-                      <th>Qty</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>asdf</td>
-                      <td class="price">$123</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </article>
-
-            <article class="card">
-              <header class="card__header">
-                <div class="card__heading">Menu Name 3</div>
-                <div class="card__subheading">Effective Date</div>
-              </header>
-
-              <div class="card__body">
-                <table class="card__table">
-                  <thead>
-                    <tr>
-                      <th>Dishes</th>
-                      <th>Prices (HKD)</th>
-                      <th>Qty</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>asdasdfasdfasdfasdfsadfsadfsadff</td>
-                      <td class="price">$123</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </article>
-          </div>
-
-          <div>Total Prices: $1234</div>
-          <div>
-            <label for="appoint-time">Appointed Time</label>
-            <input
-              type="time"
-              id="appoint-time"
-              name="appointTime"
-              max="21:00"
-              required
-            />
-          </div>
-          <button class="btn btn--primary" type="submit">Submit Order</button>
-        </form>
-      </div>
+    
+    <section class="block block--title">
+      <h1>Place New Order</h1>
     </section>
 
-    <template id="menu--order-template">
-      <article class="card">
-        <header class="card__header">
-          <div class="card__heading" data-menu-name></div>
-        </header>
+    <section class="block" id="section-menus"></section>
 
-        <div class="card__body">
-          <table class="card__table">
-            <thead>
-              <tr>
-                <th>Dishes</th>
-                <th>Prices (HKD)</th>
-                <th>Qty</th>
-              </tr>
-            </thead>
-            <tbody>
-            </tbody>
-          </table>
+    <section class="block" id="section-form">
+      <form action="/orders" method="POST">
+        <input type="hidden" id="input-order" name="dishnamesXqtys" required />
+        <div class="input-time-container">
+          <label for="appoint-time">Appoint a time for takeaway: </label>
+          <input class="input-time" type="time" id="appoint-time" name="appointTime" required>
+        </div>
+        <div class="err-msg" data-appoint-time-validate-msg></div>
+        <div class="block">
+          <button class="btn btn--primary" type="submit">Submit Order</button>
+          <div class="err-msg" data-submit-validate-msg></div>
+        </div>
+      </form>
+    </section>
+
+    <template id="menu-container-template">
+      <section class="container" data-menu-container>
+        <input type="hidden" data-menu-id>
+        <h2 class="container__header container__header--white container__header--left" data-menu-name>Menu Name</h2>
+        <div class="container__body grid--1x2 grid grid--foods" data-foods-container></div>
+      </section>
+    </template>
+
+    <template id="food-template">
+      <article class="food" data-food>
+        <div class="food__name" data-food-name>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur, quos!</div>
+        <div class="food__price" data-food-price>$123</div>
+        <div class="food__qty">
+          <button class="food__btn food__btn--add">
+            +
+          </button>
+          <div class="food__qty-string" data-food-qty-str>0</div>
+          <button class="food__btn food__btn--minus">
+            −
+          </button>
         </div>
       </article>
     </template>
-
-    <template id="dish-template">
-      <tr>
-        <td data-dish-name></td>
-        <td class="price" data-dish-price></td>
-        <td data-dish-qty>
-          <button class="card__btn card__btn--updown">
-            ▲
-          </button>
-          <button class="card__btn card__btn--updown">
-            ▼
-          </button>
-        </td>
-      </tr>
-    </template>
+    
     <script src="../lib/collapsibles.js"></script>
     <script src="../lib/newOrder.js"></script>
   </body>

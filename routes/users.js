@@ -37,7 +37,7 @@ router.post('/', asyncMiddleware(async (req, res) => {
             const token = user.generateAuthenToken();
             // res.header('x_authen_token', token);
             res.cookie('x_authen_token', token, { httpOnly: true })
-                .redirect('users/welcome');
+                .redirect('/orders/yourOrders');
         })
         .catch(() => {
             res.redirect(url.format({

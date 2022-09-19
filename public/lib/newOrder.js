@@ -208,7 +208,7 @@ function renderFoods(menu, menuContainer) {
       foodElement.querySelector(".food__btn--minus").disabled = true;
     }
 
-    if (totalQty >= MAX_TOTAL_QTY || foodQtyStr.innerText === "10") {
+    if (totalQty >= MAX_TOTAL_QTY || foodQtyStr.innerText === "9") {
       foodElement.querySelector(".food__btn--add").disabled = true;
     }
 

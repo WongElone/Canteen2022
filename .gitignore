@@ -6,3 +6,4 @@ try.ejs
 try2.html
 try2.js
 views/dishes/showDishes(old).ejs
+components_templates/

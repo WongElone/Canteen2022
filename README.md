@@ -1,15 +1,18 @@
 # Canteen 2022
-### Link: [Canteen2022](https://canteen2022.herokuapp.com/) 
+## ✨Demo✨
+https://demo-canteen.elonewong.com/  
 
+## Tech Stacks
+• Database: MongoDB
+• Backend: Express.js
+• Frontend: Vanilla JS, HTML, CSS  
 ### Description:
-A coding practice of building a website. The backend is being built with Express.js and MongoDB, and the frontend is being built with JS, HTML, CSS, and EJS.
-
-The website is about posting menus by the staff of the canteen for customers to view, and allows customers to order dishes for takeaway.
+A coding practice of building a website. The website is about posting menus by the staff of the canteen for customers to view, and allows customers to order dishes for takeaway.  
 
 ### Features for customer account
-• View today menus and order dishes with an appointed time .  
+• View today menus and order dishes with an appointed time.
 • View their own pending orders.  
-*Go to sign up page to create a new customer account.
+*Go to sign up page to create a new customer account.  
 
 ### Features for staff account
 • View pending orders, completed orders, and abandoned orders.  
@@ -18,7 +21,7 @@ The website is about posting menus by the staff of the canteen for customers to 
 • View, create, and remove menus.  
 • View, create, and remove dishes.  
 • View customers' info.  
-*The website allows creating customer accounts, but not staff accounts. Staff account is not disclosed here.
+*The website allows creating customer accounts, but not staff accounts. Staff account is not disclosed here.  
 
 ### Details:
 • The time of the system applies Hong Kong local time (UTC +8).  

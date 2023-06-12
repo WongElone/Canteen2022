@@ -3,8 +3,8 @@
 https://demo-canteen.elonewong.com/  
 
 ## Tech Stacks
-• Database: MongoDB
-• Backend: Express.js
+• Database: MongoDB  
+• Backend: Express.js  
 • Frontend: Vanilla JS, HTML, CSS  
 ### Description:
 A coding practice of building a website. The website is about posting menus by the staff of the canteen for customers to view, and allows customers to order dishes for takeaway.  

@@ -1,6 +1,6 @@
 # Canteen 2022
 ## ✨Demo✨
-https://demo-canteen.elonewong.com/  
+~~https://demo-canteen.elonewong.com/~~  
 
 ## Tech Stacks
 • Database: MongoDB  
